@@ -1,0 +1,33 @@
+version: "3"
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: mysqldb
+
+#  adminer: # db 클라이언트
+#    container_name: adminer
+#    image: adminer:latest
+#    restart: always
+#    ports:
+#      - "8081:8080"
+
+  springboot:
+    container_name: springboot
+    build: .
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/tecst?serverTimezone=UTC&characterEncoding=UTF-8
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: d4594283!
+
+
