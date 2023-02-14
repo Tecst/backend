@@ -16,7 +16,7 @@ build/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
-
+application-dbconfig.properties
 ### IntelliJ IDEA ###
 .idea
 *.iws
