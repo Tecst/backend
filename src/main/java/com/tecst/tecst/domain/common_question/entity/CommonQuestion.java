@@ -22,9 +22,10 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 public class CommonQuestion {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID commonQuestionId;
+//    @GeneratedValue(generator = "UUID")
+//    @Column(columnDefinition = "BINARY(16)")
+    @GeneratedValue
+    private Long commonQuestionId;
 
     @Enumerated(EnumType.STRING)
     private Type type;
@@ -34,10 +35,6 @@ public class CommonQuestion {
 
     @Column(name = "Contents", length = 100)
     private String contents;
-
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "userId")
-    private User user;
 
     @OneToMany(mappedBy = "commonQuestion")
     private List<Bookmark> bookmarks = new ArrayList<Bookmark>();

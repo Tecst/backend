@@ -2,10 +2,7 @@ package com.tecst.tecst.domain.user.entity;
 
 import com.tecst.tecst.domain.answer.entity.Answer;
 import com.tecst.tecst.domain.bookmark.entity.Bookmark;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -34,6 +31,11 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Answer> answers = new ArrayList<Answer>();
+    @Builder
+    private User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 
 //    @OneToMany(mappedBy = "User")
 //    private List<Personal_Question> personal_questions = new ArrayList<Personal_Question>();
