@@ -3,10 +3,7 @@ package com.tecst.tecst.domain.common_question.entity;
 import com.tecst.tecst.domain.Type;
 import com.tecst.tecst.domain.bookmark.entity.Bookmark;
 import com.tecst.tecst.domain.user.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -27,10 +24,11 @@ public class CommonQuestion {
     @GeneratedValue
     private Long commonQuestionId;
 
-    @Enumerated(EnumType.STRING)
-    private Type type;
+//    @Enumerated(EnumType.STRING)
+    @Column(name = "Type", length = 30)
+    private String type;
 
-    @Column(name = "Response", length = 100)
+    @Column(name = "Response", length = 500)
     private String response;
 
     @Column(name = "Contents", length = 100)
@@ -38,4 +36,11 @@ public class CommonQuestion {
 
     @OneToMany(mappedBy = "commonQuestion")
     private List<Bookmark> bookmarks = new ArrayList<Bookmark>();
+
+    @Builder
+    private CommonQuestion(String type, String response, String contents) {
+        this.type = type;
+        this.response = response;
+        this.contents = contents;
+    }
 }

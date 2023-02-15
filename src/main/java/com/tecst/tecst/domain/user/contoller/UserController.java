@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.tecst.tecst.global.result.ResultCode.USER_REGISTRATION_SUCCESS;
 
-@Api(tags = "회원 API")
+@Api(tags = "User API")
 @RestController
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @RequestMapping("/api/v1/user")
