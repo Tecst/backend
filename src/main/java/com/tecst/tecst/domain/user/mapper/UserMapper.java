@@ -15,8 +15,7 @@ public class UserMapper {
     }
 
     public User toEntity(CreateUserRequestDto dto) {
-        User user =
-                User.builder()
+        User user = User.builder()
                         .email(dto.getEmail())
                         .password(dto.getPassword())
                         .build();

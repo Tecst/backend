@@ -21,7 +21,6 @@ import java.util.Optional;
 @Transactional
 public class CommonQuestionService {
     private final CommonQuestionRepository commonQuestionRepository;
-    private final EntityManager em;
 
     public GetCommonQuestionsResponseDto GetQuestions(String type, int count) {
         List<CommonQuestionResponseDto> result = commonQuestionRepository.findCommonQuestionsByType(type, count);
@@ -30,6 +29,11 @@ public class CommonQuestionService {
         dto.setCount(count);
         dto.setQuestions_list(result);
         return dto;
+    }
+
+    public CommonQuestion findCommonQuestionById(Long id) {
+        CommonQuestion result = commonQuestionRepository.findByCommonQuestionId(id).orElseThrow(null);
+        return result;
     }
 
 }

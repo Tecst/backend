@@ -1,11 +1,9 @@
 package com.tecst.tecst.domain.answer.entity;
 
 import com.tecst.tecst.domain.Type;
+import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
 import com.tecst.tecst.domain.user.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -23,14 +21,26 @@ public class Answer {
     @Column(columnDefinition = "BINARY(16)")
     private UUID answerId;
 
-    @Enumerated(EnumType.STRING)
-    private Type type;
+    @Column(name = "Type", length = 20)
+    private String type;
 
     @Column(name = "Response", length = 100)
     private String response;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "commonQuestionId")
+    private CommonQuestion commonQuestion;
+
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "userId")
     private User user;
+
+    @Builder
+    private Answer(User user, String type, CommonQuestion commonQuestion, String response) {
+        this.user = user;
+        this.type = type;
+        this.commonQuestion = commonQuestion;
+        this.response = response;
+    }
 
 }

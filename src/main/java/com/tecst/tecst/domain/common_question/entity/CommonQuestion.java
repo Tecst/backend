@@ -1,6 +1,7 @@
 package com.tecst.tecst.domain.common_question.entity;
 
 import com.tecst.tecst.domain.Type;
+import com.tecst.tecst.domain.answer.entity.Answer;
 import com.tecst.tecst.domain.bookmark.entity.Bookmark;
 import com.tecst.tecst.domain.user.entity.User;
 import lombok.*;
@@ -19,8 +20,6 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 public class CommonQuestion {
     @Id
-//    @GeneratedValue(generator = "UUID")
-//    @Column(columnDefinition = "BINARY(16)")
     @GeneratedValue
     private Long commonQuestionId;
 
@@ -34,8 +33,11 @@ public class CommonQuestion {
     @Column(name = "Contents", length = 100)
     private String contents;
 
-    @OneToMany(mappedBy = "commonQuestion")
+    @OneToMany(mappedBy = "commonQuestion", cascade = CascadeType.ALL)
     private List<Bookmark> bookmarks = new ArrayList<Bookmark>();
+
+    @OneToMany(mappedBy = "commonQuestion", cascade = CascadeType.ALL)
+    private List<Answer> answers = new ArrayList<Answer>();
 
     @Builder
     private CommonQuestion(String type, String response, String contents) {

@@ -1,0 +1,39 @@
+package com.tecst.tecst.domain.answer.controller;
+
+import com.tecst.tecst.domain.answer.dto.request.SaveAnswerRequestDto;
+import com.tecst.tecst.domain.answer.service.AnswerService;
+import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
+import com.tecst.tecst.domain.common_question.service.CommonQuestionService;
+import com.tecst.tecst.domain.user.entity.User;
+import com.tecst.tecst.global.result.ResultResponse;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
+
+import static com.tecst.tecst.global.result.ResultCode.REGISTER_ANSWER_SUCCESS;
+import static com.tecst.tecst.global.result.ResultCode.USER_REGISTRATION_SUCCESS;
+
+@Api(tags = "Common Question API")
+@RestController
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@RequestMapping("/api/v1/interview/answers")
+public class AnswerController {
+    private final AnswerService answerService;
+    private final CommonQuestionService commonQuestionService;
+
+    @ApiOperation(value = "사용자가 입력한 정답 저장")
+    @PostMapping("/new")
+    // 답변 저장
+    public ResponseEntity<ResultResponse> SaveAnswer(@RequestBody SaveAnswerRequestDto dto, @ApiIgnore User user) {
+        CommonQuestion commonQuestion = commonQuestionService.findCommonQuestionById(dto.getCommon_questions_id());
+        answerService.saveAnswer(dto, user, commonQuestion);
+        return ResponseEntity.ok(ResultResponse.of(REGISTER_ANSWER_SUCCESS, dto));
+    }
+}
