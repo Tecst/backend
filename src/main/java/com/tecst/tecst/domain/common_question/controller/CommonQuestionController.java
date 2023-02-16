@@ -1,5 +1,6 @@
 package com.tecst.tecst.domain.common_question.controller;
 import com.tecst.tecst.domain.common_question.dto.response.GetCommonQuestionsResponseDto;
+import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
 import com.tecst.tecst.domain.common_question.service.CommonQuestionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,5 +23,11 @@ public class CommonQuestionController {
                                                            @RequestParam int count) {
 
         return commonQuestionService.GetQuestions(type, count);
+    }
+
+    @ApiOperation(value = "선택한 분야의 질문 제공")
+    @GetMapping("/questions/{id}")
+    public CommonQuestion GetCommonQuestion(@PathVariable Long id) {
+        return commonQuestionService.findCommonQuestionById(id);
     }
 }

@@ -35,5 +35,4 @@ public class CommonQuestionService {
         CommonQuestion result = commonQuestionRepository.findByCommonQuestionId(id).orElseThrow(null);
         return result;
     }
-
 }

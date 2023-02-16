@@ -1,5 +1,6 @@
 package com.tecst.tecst.domain.common_question.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecst.tecst.domain.Type;
 import com.tecst.tecst.domain.answer.entity.Answer;
 import com.tecst.tecst.domain.bookmark.entity.Bookmark;
@@ -36,6 +37,7 @@ public class CommonQuestion {
     @OneToMany(mappedBy = "commonQuestion", cascade = CascadeType.ALL)
     private List<Bookmark> bookmarks = new ArrayList<Bookmark>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "commonQuestion", cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<Answer>();
 
