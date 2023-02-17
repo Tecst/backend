@@ -1,5 +1,6 @@
 package com.tecst.tecst.domain.common_question.controller;
 import com.tecst.tecst.domain.common_question.dto.response.GetCommonQuestionsResponseDto;
+import com.tecst.tecst.domain.common_question.dto.response.GetCommonQuestionsSolutionDto;
 import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
 import com.tecst.tecst.domain.common_question.service.CommonQuestionService;
 import io.swagger.annotations.Api;
@@ -29,5 +30,11 @@ public class CommonQuestionController {
     @GetMapping("/questions/{id}")
     public CommonQuestion GetCommonQuestion(@PathVariable Long id) {
         return commonQuestionService.findCommonQuestionById(id);
+    }
+
+    @ApiOperation(value = "질문 해답 제공")
+    @GetMapping("/solutions/{id}")
+    public GetCommonQuestionsSolutionDto GetCommonQuestionSolution(@PathVariable Long id) {
+        return commonQuestionService.GetSolutions(id);
     }
 }

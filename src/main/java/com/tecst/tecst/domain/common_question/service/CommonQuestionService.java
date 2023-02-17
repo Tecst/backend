@@ -2,6 +2,7 @@ package com.tecst.tecst.domain.common_question.service;
 
 import com.tecst.tecst.domain.common_question.dto.response.CommonQuestionResponseDto;
 import com.tecst.tecst.domain.common_question.dto.response.GetCommonQuestionsResponseDto;
+import com.tecst.tecst.domain.common_question.dto.response.GetCommonQuestionsSolutionDto;
 import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
 import com.tecst.tecst.domain.common_question.repository.CommonQuestionRepository;
 import com.tecst.tecst.domain.user.repository.UserRepository;
@@ -34,5 +35,13 @@ public class CommonQuestionService {
     public CommonQuestion findCommonQuestionById(Long id) {
         CommonQuestion result = commonQuestionRepository.findByCommonQuestionId(id).orElseThrow(null);
         return result;
+    }
+
+    public GetCommonQuestionsSolutionDto GetSolutions(Long id) {
+        CommonQuestion result = commonQuestionRepository.findByCommonQuestionId(id).orElseThrow(null);
+        GetCommonQuestionsSolutionDto dto = new GetCommonQuestionsSolutionDto();
+        dto.setCommonQuestionId(id);
+        dto.setResponse(result.getResponse());
+        return dto;
     }
 }
