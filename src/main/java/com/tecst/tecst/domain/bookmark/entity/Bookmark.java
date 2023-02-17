@@ -21,7 +21,7 @@ public class Bookmark {
     @Id
     @GeneratedValue(generator = "UUID")
     @Column(columnDefinition = "BINARY(16)")
-    private UUID bookMarkId;
+    private UUID bookmarkId;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "userId")
@@ -30,6 +30,4 @@ public class Bookmark {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "commonQuestionId")
     private CommonQuestion commonQuestion;
-
-
 }
