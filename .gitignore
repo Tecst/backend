@@ -91,4 +91,4 @@ prometheus/data
 
 .env
 
-application-dbconfig.properties
+src/main/resources/application-dbconfig.properties
