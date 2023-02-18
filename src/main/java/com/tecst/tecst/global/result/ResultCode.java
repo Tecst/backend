@@ -19,6 +19,10 @@ public enum ResultCode {
     QUESTION_CREATE_SUCCESS("Q001", "질문 생성 성공"),
     QUESTION_GET_SUCCESS("Q002", "질문 조회 성공"),
 
+    // bookmark
+    BOOKMARK_REGISTRATION_SUCCESS("B001", "북마크 등록 성공"),
+    BOOKMARK_DELETE_SUCCESS("B002", "북마크 삭제 성공"),
+
     // answers(사용자가 입력한 정답)
     REGISTER_ANSWER_SUCCESS("A001", "응답 등록 성공"),
     COMMENT_FIND_SUCCESS("A002", "응답 찾기 성공"),
