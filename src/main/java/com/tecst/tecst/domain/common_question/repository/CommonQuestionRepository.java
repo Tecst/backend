@@ -15,5 +15,9 @@ public interface CommonQuestionRepository extends JpaRepository<CommonQuestion, 
     @Query(value = "select distinct * from common_question where type = :type order by rand() limit :count", nativeQuery = true)
     List<CommonQuestionResponseDto> findCommonQuestionsByType(String type, int count);
 
+    @Query(value = "select * from common_question order by rand() limit :count", nativeQuery = true)
+    List<CommonQuestionResponseDto> findAllByCommonQuestionIdExists(int count);
+
+
     CommonQuestion findByCommonQuestionId(Long id);
 }
