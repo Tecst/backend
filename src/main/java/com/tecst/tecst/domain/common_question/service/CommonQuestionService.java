@@ -20,7 +20,9 @@ public class CommonQuestionService {
     private final CommonQuestionRepository commonQuestionRepository;
 
     public GetCommonQuestionsResponseDto GetQuestions(String type, int count) {
-        List<CommonQuestionResponseDto> result = commonQuestionRepository.findCommonQuestionsByType(type, count);
+        List<CommonQuestionResponseDto> result;
+        if (type.equals("all")) result = commonQuestionRepository.findAllByCommonQuestionIdExists(count);
+        else result = commonQuestionRepository.findCommonQuestionsByType(type, count);
         GetCommonQuestionsResponseDto dto = new GetCommonQuestionsResponseDto();
         dto.setType(type);
         dto.setCount(count);
