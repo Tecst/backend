@@ -5,16 +5,12 @@ import com.tecst.tecst.domain.common_question.dto.response.GetCommonQuestionsRes
 import com.tecst.tecst.domain.common_question.dto.response.GetCommonQuestionsSolutionDto;
 import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
 import com.tecst.tecst.domain.common_question.repository.CommonQuestionRepository;
-import com.tecst.tecst.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Log4j2
@@ -33,12 +29,11 @@ public class CommonQuestionService {
     }
 
     public CommonQuestion findCommonQuestionById(Long id) {
-        CommonQuestion result = commonQuestionRepository.findByCommonQuestionId(id);
-        return result;
+        return commonQuestionRepository.findByCommonQuestionId(id);
     }
 
     public GetCommonQuestionsSolutionDto GetSolutions(Long id) {
-        CommonQuestion result = commonQuestionRepository.findByCommonQuestionId(id).orElseThrow(null);
+        CommonQuestion result = commonQuestionRepository.findByCommonQuestionId(id);
         GetCommonQuestionsSolutionDto dto = new GetCommonQuestionsSolutionDto();
         dto.setCommonQuestionId(id);
         dto.setResponse(result.getResponse());
