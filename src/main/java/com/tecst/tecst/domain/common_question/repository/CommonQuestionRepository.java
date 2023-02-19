@@ -16,5 +16,4 @@ public interface CommonQuestionRepository extends JpaRepository<CommonQuestion, 
     List<CommonQuestionResponseDto> findCommonQuestionsByType(String type, int count);
 
     CommonQuestion findByCommonQuestionId(Long id);
-
 }

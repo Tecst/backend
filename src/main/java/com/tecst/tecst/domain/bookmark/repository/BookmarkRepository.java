@@ -7,4 +7,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface BookmarkRepository extends JpaRepository<Bookmark, UUID> {
+
+    Optional<Bookmark> findByBookmarkId(UUID id);
 }
