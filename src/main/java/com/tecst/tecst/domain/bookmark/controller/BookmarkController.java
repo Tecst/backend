@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
-
 import static com.tecst.tecst.global.result.ResultCode.BOOKMARK_REGISTRATION_SUCCESS;
 
 @Api(tags = "Bookmark API")
@@ -37,6 +35,7 @@ public class BookmarkController {
     public ResponseEntity<ResultResponse> registBookmark(RegistBookmarkRequestDto dto) {
         bookmarkService.register(dto);
         return ResponseEntity.ok(ResultResponse.of(BOOKMARK_REGISTRATION_SUCCESS, dto));
+    }
 
     @ApiOperation(value = "북마크에서 선택한 질문 삭제")
     @DeleteMapping("/{id}")

@@ -25,7 +25,7 @@ public class BookmarkService {
     public void register(RegistBookmarkRequestDto dto) {
         Bookmark bookmark = bookmarkMapper.toEntity(dto);
         bookmarkRepository.save(bookmark);
-        
+    }
         
     public DeleteBookmarkResponseDto DeleteBookmark(UUID bookmarkId) {
         Bookmark result = bookmarkRepository.findByBookmarkId(bookmarkId).orElseThrow(null);
