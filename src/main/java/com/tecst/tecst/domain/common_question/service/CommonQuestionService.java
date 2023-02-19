@@ -33,7 +33,7 @@ public class CommonQuestionService {
     }
 
     public CommonQuestion findCommonQuestionById(Long id) {
-        CommonQuestion result = commonQuestionRepository.findByCommonQuestionId(id).orElseThrow(null);
+        CommonQuestion result = commonQuestionRepository.findByCommonQuestionId(id);
         return result;
     }
 

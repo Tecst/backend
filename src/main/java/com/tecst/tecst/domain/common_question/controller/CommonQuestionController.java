@@ -26,7 +26,7 @@ public class CommonQuestionController {
         return commonQuestionService.GetQuestions(type, count);
     }
 
-    @ApiOperation(value = "선택한 분야의 질문 제공")
+    @ApiOperation(value = "질문 id를 입력하면 해당 질문 반환")
     @GetMapping("/questions/{id}")
     public CommonQuestion GetCommonQuestion(@PathVariable Long id) {
         return commonQuestionService.findCommonQuestionById(id);

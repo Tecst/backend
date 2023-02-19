@@ -2,10 +2,7 @@ package com.tecst.tecst.domain.bookmark.entity;
 
 import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
 import com.tecst.tecst.domain.user.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -30,4 +27,10 @@ public class Bookmark {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "commonQuestionId")
     private CommonQuestion commonQuestion;
+
+    @Builder
+    private Bookmark(User user, CommonQuestion commonQuestion) {
+        this.user = user;
+        this.commonQuestion = commonQuestion;
+    }
 }
