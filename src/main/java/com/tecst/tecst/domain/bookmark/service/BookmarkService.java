@@ -29,6 +29,7 @@ public class BookmarkService {
         
     public DeleteBookmarkResponseDto DeleteBookmark(UUID bookmarkId) {
         Bookmark result = bookmarkRepository.findByBookmarkId(bookmarkId).orElseThrow(null);
+        bookmarkRepository.deleteById(bookmarkId);
         DeleteBookmarkResponseDto dto = new DeleteBookmarkResponseDto();
         dto.setBookmark_id(bookmarkId);
         dto.setUser_id(result.getUser().getUserId());
