@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
+
 import static com.tecst.tecst.global.result.ResultCode.REGISTER_ANSWER_SUCCESS;
-import static com.tecst.tecst.global.result.ResultCode.USER_REGISTRATION_SUCCESS;
 
 @Api(tags = "Common Question API")
 @RestController
@@ -32,6 +32,15 @@ public class AnswerController {
     @PostMapping("/new")
     // 답변 저장
     public ResponseEntity<ResultResponse> SaveAnswer(@RequestBody SaveAnswerRequestDto dto, @ApiIgnore User user) {
+        CommonQuestion commonQuestion = commonQuestionService.findCommonQuestionById(dto.getCommon_questions_id());
+        answerService.saveAnswer(dto, user, commonQuestion);
+        return ResponseEntity.ok(ResultResponse.of(REGISTER_ANSWER_SUCCESS, dto));
+    }
+
+    @ApiOperation(value = "녹음 파일을 전달 받으면 STT 실행")
+    @PostMapping("/voice-answers/new")
+    // 답변 저장
+    public ResponseEntity<ResultResponse> SaveVoiceAnswer(@RequestBody SaveAnswerRequestDto dto, @ApiIgnore User user) {
         CommonQuestion commonQuestion = commonQuestionService.findCommonQuestionById(dto.getCommon_questions_id());
         answerService.saveAnswer(dto, user, commonQuestion);
         return ResponseEntity.ok(ResultResponse.of(REGISTER_ANSWER_SUCCESS, dto));
