@@ -1,5 +1,6 @@
 package com.tecst.tecst.domain.answer.service;
 
+import com.tecst.tecst.domain.answer.ClovaSpeechClient;
 import com.tecst.tecst.domain.answer.dto.request.SaveAnswerRequestDto;
 import com.tecst.tecst.domain.answer.entity.Answer;
 import com.tecst.tecst.domain.answer.mapper.AnswerMapper;
@@ -20,8 +21,17 @@ import javax.transaction.Transactional;
 public class AnswerService {
     private final AnswerRepository answerRepository;
     private final AnswerMapper answerMapper;
+    private final ClovaSpeechClient clovaSpeechClient;
 
     public void saveAnswer(SaveAnswerRequestDto dto, @Lazy User user, CommonQuestion commonquestion) {
+        // Type이 voice면 STT 실행
+        if(dto.getType().equals("voice")){
+            ClovaSpeechClient.NestRequestEntity requestEntity = new ClovaSpeechClient.NestRequestEntity();
+            final String result = clovaSpeechClient.objectStorage(dto.getResponse(), requestEntity);
+            dto.setResponse(result);
+
+        }
+
         Answer answer = answerMapper.toEntity(dto, user, commonquestion);
         answerRepository.save(answer);
     }
