@@ -3,7 +3,6 @@ package com.tecst.tecst.domain.answer.mapper;
 import com.tecst.tecst.domain.answer.dto.request.SaveAnswerRequestDto;
 import com.tecst.tecst.domain.answer.entity.Answer;
 import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
-import com.tecst.tecst.domain.user.dto.request.CreateUserRequestDto;
 import com.tecst.tecst.domain.user.entity.User;
 import org.springframework.stereotype.Component;
 

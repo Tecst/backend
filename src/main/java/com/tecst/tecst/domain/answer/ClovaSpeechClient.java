@@ -18,21 +18,36 @@ import org.apache.http.util.EntityUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ClovaSpeechClient {
 
     // Clova Speech secret key
-    private static final String SECRET = "bc0bf43a582e472fba516babc7121890";
+    private static String SECRET;
+    @Value("${clova.SECRET}")
+    private void setSECRET(String value){
+        SECRET = value;
+    }
     // Clova Speech invoke URL
-    private static final String INVOKE_URL = "https://clovaspeech-gw.ncloud.com/external/v1/4617/aee132683639e4578eaba1ebf42b59173f2971bff8b750fa0b3ba43fe54eee2a";
+    private static String INVOKE_URL;
+    @Value("${clova.INVOKE-URL}")
+    private void setINVOKE_URL (String value){
+        INVOKE_URL  = value;
+    }
 
     private final CloseableHttpClient httpClient = HttpClients.createDefault();
     private final Gson gson = new Gson();
 
-    private static final Header[] HEADERS = new Header[] {
-            new BasicHeader("Accept", "application/json;UTF-8"),
-            new BasicHeader("X-CLOVASPEECH-API-KEY", SECRET),
-    };
+    private static Header[] HEADERS;
+
+    private void setHEADERS() {
+        HEADERS = new Header[]{
+                new BasicHeader("Accept", "application/json;UTF-8"),
+                new BasicHeader("X-CLOVASPEECH-API-KEY", SECRET),
+        };
+    }
 
     public static class NestRequestEntity {
         private static final String language = "ko-KR";
@@ -67,6 +82,7 @@ public class ClovaSpeechClient {
      */
     public String objectStorage(String dataKey, NestRequestEntity nestRequestEntity) {
         HttpPost httpPost = new HttpPost(INVOKE_URL + "/recognizer/object-storage");
+        setHEADERS();
         httpPost.setHeaders(HEADERS);
         Map<String, Object> body = new HashMap<>();
         body.put("dataKey", dataKey);
