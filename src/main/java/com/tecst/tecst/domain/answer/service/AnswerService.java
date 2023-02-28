@@ -2,6 +2,7 @@ package com.tecst.tecst.domain.answer.service;
 
 import com.tecst.tecst.domain.answer.ClovaSpeechClient;
 import com.tecst.tecst.domain.answer.dto.request.SaveAnswerRequestDto;
+import com.tecst.tecst.domain.answer.dto.response.GetVoiceAnswerResponseDto;
 import com.tecst.tecst.domain.answer.entity.Answer;
 import com.tecst.tecst.domain.answer.mapper.AnswerMapper;
 import com.tecst.tecst.domain.answer.repository.AnswerRepository;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @Service
 @Log4j2
@@ -34,5 +36,13 @@ public class AnswerService {
 
         Answer answer = answerMapper.toEntity(dto, user, commonquestion);
         answerRepository.save(answer);
+    }
+
+    public GetVoiceAnswerResponseDto GetInterviewRecord(UUID id) {
+        Answer result = answerRepository.findByAnswerId(id);
+        GetVoiceAnswerResponseDto dto = new GetVoiceAnswerResponseDto();
+        dto.setAnswerId(id);
+        dto.setResponse(result.getResponse());
+        return dto;
     }
 }
