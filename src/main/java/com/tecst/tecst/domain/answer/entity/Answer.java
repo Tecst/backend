@@ -1,6 +1,5 @@
 package com.tecst.tecst.domain.answer.entity;
 
-import com.tecst.tecst.domain.Type;
 import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
 import com.tecst.tecst.domain.user.entity.User;
 import lombok.*;

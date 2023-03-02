@@ -1,5 +1,7 @@
-package com.tecst.tecst.domain.oauth;
+package com.tecst.tecst.domain.oauth.client;
 
+import com.tecst.tecst.domain.oauth.dto.KakaoUserResponse;
+import com.tecst.tecst.domain.oauth.exception.TokenValidFailedException;
 import com.tecst.tecst.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

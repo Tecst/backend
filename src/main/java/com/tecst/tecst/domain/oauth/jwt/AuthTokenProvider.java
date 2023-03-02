@@ -1,5 +1,6 @@
-package com.tecst.tecst.domain.oauth;
+package com.tecst.tecst.domain.oauth.jwt;
 
+import com.tecst.tecst.domain.oauth.exception.TokenValidFailedException;
 import com.tecst.tecst.domain.oauth.enumerate.RoleType;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.security.Keys;

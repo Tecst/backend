@@ -1,4 +1,4 @@
-package com.tecst.tecst.domain.oauth;
+package com.tecst.tecst.domain.oauth.exception;
 
 public class TokenValidFailedException extends RuntimeException {
 

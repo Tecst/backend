@@ -1,4 +1,4 @@
-package com.tecst.tecst.domain.oauth;
+package com.tecst.tecst.domain.oauth.enumerate;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

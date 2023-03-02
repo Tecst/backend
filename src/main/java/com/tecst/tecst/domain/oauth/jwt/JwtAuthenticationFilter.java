@@ -1,4 +1,4 @@
-package com.tecst.tecst.domain.oauth;
+package com.tecst.tecst.domain.oauth.jwt;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

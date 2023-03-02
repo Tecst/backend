@@ -1,4 +1,4 @@
-package com.tecst.tecst.domain.oauth;
+package com.tecst.tecst.domain.oauth.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

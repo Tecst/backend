@@ -32,9 +32,13 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<Answer>();
     @Builder
-    private User(String email, String password) {
+    public User(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public void updateRefreshToken(String reIssuedRefreshToken) {
+
     }
 
 //    @OneToMany(mappedBy = "User")

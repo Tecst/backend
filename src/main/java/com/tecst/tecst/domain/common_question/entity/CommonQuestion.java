@@ -1,7 +1,6 @@
 package com.tecst.tecst.domain.common_question.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tecst.tecst.domain.Type;
 import com.tecst.tecst.domain.answer.entity.Answer;
 import com.tecst.tecst.domain.bookmark.entity.Bookmark;
 import com.tecst.tecst.domain.user.entity.User;

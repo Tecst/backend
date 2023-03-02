@@ -1,4 +1,4 @@
-package com.tecst.tecst.domain.oauth;
+package com.tecst.tecst.domain.oauth.jwt;
 
 import com.tecst.tecst.domain.oauth.enumerate.RoleType;
 import io.jsonwebtoken.*;
