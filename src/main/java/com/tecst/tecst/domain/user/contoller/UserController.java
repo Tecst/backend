@@ -1,6 +1,8 @@
 package com.tecst.tecst.domain.user.contoller;
 
+import com.tecst.tecst.domain.auth.dto.TokenInfo;
 import com.tecst.tecst.domain.user.dto.request.CreateUserRequestDto;
+import com.tecst.tecst.domain.user.dto.request.UserLoginRequestDto;
 import com.tecst.tecst.domain.user.dto.response.CreateUserResponseDto;
 import com.tecst.tecst.domain.user.mapper.UserMapper;
 import com.tecst.tecst.domain.user.service.UserService;
@@ -22,10 +24,9 @@ import static com.tecst.tecst.global.result.ResultCode.USER_REGISTRATION_SUCCESS
 @Api(tags = "User API")
 @RestController
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/users")
 public class UserController {
     private final UserService userService;
-    private final UserMapper userMapper;
 
     @ApiOperation(value = "회원가입")
     @PostMapping("/new")
@@ -34,18 +35,9 @@ public class UserController {
         return ResponseEntity.ok(ResultResponse.of(USER_REGISTRATION_SUCCESS, dto));
     }
 
-//    @ApiOperation(value = "로그인")
-//    @PostMapping("/login")
-//    public ResponseEntity<ResultResponse> login(
-//            @RequestBody @Valid UserDto.LoginRequest loginRequest) {
-//        if (!loginService.isValidUser(loginRequest)) {
-//            throw new InValidPasswordException();
-//        }
-//
-//        UserDto.RegisterResponse registerResponse =
-//                userService.getUserRegisterDtoByUsername(loginRequest.getUsername());
-//        loginService.login(registerResponse.getId());
-//        return ResponseEntity.ok(ResultResponse.of(USER_LOGIN_SUCCESS, registerResponse));
-//    }
-
+    @ApiOperation(value = "로그인")
+    @PostMapping("/login")
+    public TokenInfo login(@RequestBody UserLoginRequestDto dto) {
+        return userService.login(dto);
+    }
 }
