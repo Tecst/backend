@@ -4,6 +4,8 @@ import com.tecst.tecst.domain.common_question.dto.response.CommonQuestionRespons
 import com.tecst.tecst.domain.common_question.dto.response.GetCommonQuestionsResponseDto;
 import com.tecst.tecst.domain.common_question.dto.response.GetCommonQuestionsSolutionDto;
 import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
+import com.tecst.tecst.domain.common_question.enumeration.Type;
+import com.tecst.tecst.domain.common_question.exception.QuestionTypeNotFound;
 import com.tecst.tecst.domain.common_question.repository.CommonQuestionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -20,6 +22,11 @@ public class CommonQuestionService {
     private final CommonQuestionRepository commonQuestionRepository;
 
     public GetCommonQuestionsResponseDto GetQuestions(String type, int count) {
+        try {
+            Type.valueOf(type);
+        } catch (IllegalArgumentException e) {
+            throw new QuestionTypeNotFound();
+        }
         List<CommonQuestionResponseDto> result;
         if (type.equals("all")) result = commonQuestionRepository.findAllByCommonQuestionIdExists(count);
         else result = commonQuestionRepository.findCommonQuestionsByType(type, count);
