@@ -5,6 +5,7 @@ import com.tecst.tecst.domain.user.dto.response.CreateUserResponseDto;
 import com.tecst.tecst.domain.user.entity.User;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +17,7 @@ public class UserMapper {
         User user = User.builder()
                         .email(dto.getEmail())
                         .password(dto.getPassword())
-                        .roles(dto.getRole())
+                        .roles(Collections.singletonList("USER"))
                         .build();
         return user;
     }

@@ -49,7 +49,8 @@ public class UserController {
         return userService.logout(dto);
     }
 
-    @PostMapping("/reissue") // Token 재발급
+    @ApiOperation(value = "Token 재발급")
+    @PostMapping("/reissue")
     public ResponseEntity<?> reissue(@RequestBody Reissue reissue) {
         return userService.reissue(reissue);
     }

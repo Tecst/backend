@@ -3,6 +3,7 @@ package com.tecst.tecst.domain.user.entity;
 import com.tecst.tecst.domain.answer.entity.Answer;
 import com.tecst.tecst.domain.bookmark.entity.Bookmark;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

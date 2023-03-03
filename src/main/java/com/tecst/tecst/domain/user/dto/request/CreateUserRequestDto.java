@@ -4,15 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.Collections;
 import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @Builder
 public class CreateUserRequestDto {
     private String email;
     private String password;
-    private List<String> role;
+//    private List<String> role;
 }
