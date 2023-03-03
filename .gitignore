@@ -94,3 +94,5 @@ prometheus/data
 src/main/resources/application-dbconfig.properties
 src/main/resources/application-jwt.yml
 src/main/resources/application-clova.properties
+
+src/main/resources/application-redis.yml

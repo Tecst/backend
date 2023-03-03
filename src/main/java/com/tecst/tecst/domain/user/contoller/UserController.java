@@ -1,5 +1,7 @@
 package com.tecst.tecst.domain.user.contoller;
 
+import com.tecst.tecst.domain.auth.dto.Logout;
+import com.tecst.tecst.domain.auth.dto.Reissue;
 import com.tecst.tecst.domain.auth.dto.TokenInfo;
 import com.tecst.tecst.domain.user.dto.request.CreateUserRequestDto;
 import com.tecst.tecst.domain.user.dto.request.UserLoginRequestDto;
@@ -39,5 +41,16 @@ public class UserController {
     @PostMapping("/login")
     public TokenInfo login(@RequestBody UserLoginRequestDto dto) {
         return userService.login(dto);
+    }
+
+    @ApiOperation(value = "로그아웃")
+    @PostMapping("/logout")
+    public ResponseEntity<?> login(@RequestBody Logout dto) {
+        return userService.logout(dto);
+    }
+
+    @PostMapping("/reissue") // Token 재발급
+    public ResponseEntity<?> reissue(@RequestBody Reissue reissue) {
+        return userService.reissue(reissue);
     }
 }
