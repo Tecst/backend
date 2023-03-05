@@ -117,6 +117,7 @@ public class UserService {
                 .set(logout.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
 
         return response.success("로그아웃 되었습니다.");
+
     }
 
     public User findUserById(UUID userId) {
