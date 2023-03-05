@@ -5,6 +5,7 @@ import com.tecst.tecst.domain.common_question.dto.response.GetCommonQuestionsRes
 import com.tecst.tecst.domain.common_question.dto.response.GetCommonQuestionsSolutionDto;
 import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
 import com.tecst.tecst.domain.common_question.enumeration.Type;
+import com.tecst.tecst.domain.common_question.exception.QuestionNotFound;
 import com.tecst.tecst.domain.common_question.exception.QuestionTypeNotFound;
 import com.tecst.tecst.domain.common_question.repository.CommonQuestionRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,14 +22,16 @@ import java.util.List;
 public class CommonQuestionService {
     private final CommonQuestionRepository commonQuestionRepository;
 
-    public GetCommonQuestionsResponseDto GetQuestions(String type, int count) {
+    public GetCommonQuestionsResponseDto GetQuestions(Type type, int count) {
+
         try {
-            Type.valueOf(type);
+            Type.valueOf(String.valueOf(type));
         } catch (IllegalArgumentException e) {
             throw new QuestionTypeNotFound();
         }
+
         List<CommonQuestionResponseDto> result;
-        if (type.equals("all")) result = commonQuestionRepository.findAllByCommonQuestionIdExists(count);
+        if (type.name().equals("all")) result = commonQuestionRepository.findAllByCommonQuestionIdExists(count);
         else result = commonQuestionRepository.findCommonQuestionsByType(type, count);
         GetCommonQuestionsResponseDto dto = new GetCommonQuestionsResponseDto();
         dto.setType(type);
@@ -38,11 +41,11 @@ public class CommonQuestionService {
     }
 
     public CommonQuestion findCommonQuestionById(Long id) {
-        return commonQuestionRepository.findByCommonQuestionId(id);
+        return commonQuestionRepository.findByCommonQuestionId(id).orElseThrow(QuestionNotFound::new);
     }
 
     public GetCommonQuestionsSolutionDto GetSolutions(Long id) {
-        CommonQuestion result = commonQuestionRepository.findByCommonQuestionId(id);
+        CommonQuestion result = commonQuestionRepository.findByCommonQuestionId(id).orElseThrow(QuestionNotFound::new);
         GetCommonQuestionsSolutionDto dto = new GetCommonQuestionsSolutionDto();
         dto.setCommonQuestionId(id);
         dto.setResponse(result.getResponse());

@@ -3,6 +3,7 @@ package com.tecst.tecst.domain.common_question.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tecst.tecst.domain.answer.entity.Answer;
 import com.tecst.tecst.domain.bookmark.entity.Bookmark;
+import com.tecst.tecst.domain.common_question.enumeration.Type;
 import com.tecst.tecst.domain.user.entity.User;
 import lombok.*;
 
@@ -23,9 +24,8 @@ public class CommonQuestion {
     @GeneratedValue
     private Long commonQuestionId;
 
-//    @Enumerated(EnumType.STRING)
-    @Column(name = "Type", length = 30)
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
     @Column(name = "Response", length = 500)
     private String response;
@@ -41,7 +41,7 @@ public class CommonQuestion {
     private List<Answer> answers = new ArrayList<Answer>();
 
     @Builder
-    private CommonQuestion(String type, String response, String contents) {
+    private CommonQuestion(Type type, String response, String contents) {
         this.type = type;
         this.response = response;
         this.contents = contents;
