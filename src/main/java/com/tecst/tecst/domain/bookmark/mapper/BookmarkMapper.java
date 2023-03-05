@@ -3,6 +3,7 @@ package com.tecst.tecst.domain.bookmark.mapper;
 import com.tecst.tecst.domain.bookmark.dto.request.RegistBookmarkRequestDto;
 import com.tecst.tecst.domain.bookmark.entity.Bookmark;
 import com.tecst.tecst.domain.bookmark.repository.BookmarkRepository;
+import com.tecst.tecst.domain.common_question.exception.QuestionNotFound;
 import com.tecst.tecst.domain.common_question.repository.CommonQuestionRepository;
 import com.tecst.tecst.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class BookmarkMapper {
 
     public Bookmark toEntity(RegistBookmarkRequestDto dto) {
         Bookmark bookmark = Bookmark.builder().user(userRepository.findByUserId(dto.getUserId()))
-                .commonQuestion(commonQuestionRepository.findByCommonQuestionId(dto.getCommonQuestionId())).build();
+                .commonQuestion(commonQuestionRepository.findByCommonQuestionId(dto.getCommonQuestionId()).orElseThrow(QuestionNotFound::new)).build();
         return bookmark;
     }
 }

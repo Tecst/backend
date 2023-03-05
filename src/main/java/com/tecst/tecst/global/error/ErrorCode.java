@@ -19,7 +19,8 @@ public enum ErrorCode {
     DUPLICATED_EMAIL(400, "U005", "이메일 중복"),
 
     // CommonQuestion
-    QUESTIONS_TYPE_NOT_FOUND_ERROR(400, "Q001", "질문 형식을 찾을 수 없음");
+    QUESTIONS_TYPE_NOT_FOUND_ERROR(400, "Q001", "질문 형식을 찾을 수 없음"),
+    QUESTIONS_NOT_FOUND_ERROR(400, "Q002", "질문을 찾을 수 없음");
 
 
     // Comment

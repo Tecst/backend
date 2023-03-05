@@ -1,5 +1,6 @@
 package com.tecst.tecst.domain.common_question.dto.response;
 
+import com.tecst.tecst.domain.common_question.enumeration.Type;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class GetCommonQuestionsResponseDto {
-    private String type;
+    private Type type;
     private int count;
     private List<CommonQuestionResponseDto> questions_list;
 
