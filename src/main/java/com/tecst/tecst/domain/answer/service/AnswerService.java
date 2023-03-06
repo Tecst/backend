@@ -4,6 +4,7 @@ import com.tecst.tecst.domain.answer.ClovaSpeechClient;
 import com.tecst.tecst.domain.answer.dto.request.SaveAnswerRequestDto;
 import com.tecst.tecst.domain.answer.dto.response.GetVoiceAnswerResponseDto;
 import com.tecst.tecst.domain.answer.entity.Answer;
+import com.tecst.tecst.domain.answer.exception.AnswerNotFound;
 import com.tecst.tecst.domain.answer.mapper.AnswerMapper;
 import com.tecst.tecst.domain.answer.repository.AnswerRepository;
 import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
@@ -39,7 +40,7 @@ public class AnswerService {
     }
 
     public GetVoiceAnswerResponseDto GetInterviewRecord(UUID id) {
-        Answer result = answerRepository.findByAnswerId(id);
+        Answer result = answerRepository.findByAnswerId(id).orElseThrow(AnswerNotFound::new);
         GetVoiceAnswerResponseDto dto = new GetVoiceAnswerResponseDto();
         dto.setAnswerId(id);
         dto.setResponse(result.getResponse());

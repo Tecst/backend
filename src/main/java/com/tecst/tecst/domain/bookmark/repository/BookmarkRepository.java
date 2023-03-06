@@ -9,4 +9,6 @@ import java.util.UUID;
 public interface BookmarkRepository extends JpaRepository<Bookmark, UUID> {
 
     Optional<Bookmark> findByBookmarkId(UUID id);
+
+    Bookmark findByUser_UserIdAndCommonQuestion_CommonQuestionId(UUID userId, Long commonQuestionId);
 }
