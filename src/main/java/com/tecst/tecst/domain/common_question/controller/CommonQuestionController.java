@@ -1,4 +1,5 @@
 package com.tecst.tecst.domain.common_question.controller;
+
 import com.tecst.tecst.domain.common_question.dto.response.GetCommonQuestionsResponseDto;
 import com.tecst.tecst.domain.common_question.dto.response.GetCommonQuestionsSolutionDto;
 import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
@@ -9,7 +10,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 
 
 @Api(tags = "Common Question API")

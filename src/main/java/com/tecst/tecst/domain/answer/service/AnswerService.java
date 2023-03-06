@@ -27,7 +27,7 @@ public class AnswerService {
 
     public void saveAnswer(SaveAnswerRequestDto dto, @Lazy User user, CommonQuestion commonquestion) {
         // Type이 voice면 STT 실행
-        if(dto.getType().equals("voice")){
+        if (dto.getType().equals("voice")) {
             ClovaSpeechClient.NestRequestEntity requestEntity = new ClovaSpeechClient.NestRequestEntity();
             final String result = clovaSpeechClient.objectStorage(dto.getResponse(), requestEntity);
             dto.setResponse(result);
