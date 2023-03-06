@@ -20,8 +20,13 @@ public enum ErrorCode {
 
     // CommonQuestion
     QUESTIONS_TYPE_NOT_FOUND_ERROR(400, "Q001", "질문 형식을 찾을 수 없음"),
-    QUESTIONS_NOT_FOUND_ERROR(400, "Q002", "질문을 찾을 수 없음");
+    QUESTIONS_NOT_FOUND_ERROR(400, "Q002", "질문을 찾을 수 없음"),
 
+    // Answer
+    ANSWERS_NOT_FOUND_ERROR(400, "A001", "답변을 찾을 수 없음"),
+
+    // Bookmark
+    BOOKMARKS_DUPLICATED(409, "B002", "북마크 중복");
 
     // Comment
 
