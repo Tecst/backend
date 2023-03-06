@@ -9,6 +9,7 @@ import com.tecst.tecst.domain.redis.config.RedisRepositoryConfig;
 import com.tecst.tecst.domain.user.dto.request.CreateUserRequestDto;
 import com.tecst.tecst.domain.user.dto.request.UserLoginRequestDto;
 import com.tecst.tecst.domain.user.entity.User;
+import com.tecst.tecst.domain.user.exception.EmailDuplicated;
 import com.tecst.tecst.domain.user.mapper.UserMapper;
 import com.tecst.tecst.domain.user.repository.UserRepository;
 import com.tecst.tecst.global.result.ResultCode;
@@ -41,6 +42,7 @@ public class UserService {
     private final Response response;
 
     public void register(CreateUserRequestDto dto) {
+        if (userRepository.findByEmail(dto.getEmail()).isPresent()) throw new EmailDuplicated();
         User user = userMapper.toEntity(dto);
         userRepository.save(user);
     }
