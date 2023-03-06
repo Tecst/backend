@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.validation.constraints.Email;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 @Setter
 @Builder
 public class CreateUserRequestDto {
+    @Email(message = "잘못된 이메일 형식")
     private String email;
     private String password;
-//    private List<String> role;
 }

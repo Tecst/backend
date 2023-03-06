@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 import static com.tecst.tecst.global.result.ResultCode.USER_REGISTRATION_SUCCESS;
 
 @Api(tags = "User API")
@@ -32,7 +34,7 @@ public class UserController {
 
     @ApiOperation(value = "회원가입")
     @PostMapping("/new")
-    public ResponseEntity<ResultResponse> registration(@RequestBody CreateUserRequestDto dto) {
+    public ResponseEntity<ResultResponse> registration(@Valid @RequestBody CreateUserRequestDto dto) {
         userService.register(dto);
         return ResponseEntity.ok(ResultResponse.of(USER_REGISTRATION_SUCCESS, dto));
     }
