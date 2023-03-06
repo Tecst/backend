@@ -40,7 +40,7 @@ public class AnswerService {
     }
 
     public GetVoiceAnswerResponseDto GetInterviewRecord(UUID id) {
-        Answer result = answerRepository.findByAnswerId(id).orElseThrow(AnswerNotFound::new);
+        Answer result = answerRepository.findById(id).orElseThrow(AnswerNotFound::new);
         GetVoiceAnswerResponseDto dto = new GetVoiceAnswerResponseDto();
         dto.setAnswerId(id);
         dto.setResponse(result.getResponse());

@@ -5,14 +5,13 @@ import com.tecst.tecst.domain.auth.dto.Reissue;
 import com.tecst.tecst.domain.auth.dto.Response;
 import com.tecst.tecst.domain.auth.jwt.JwtTokenProvider;
 import com.tecst.tecst.domain.auth.dto.TokenInfo;
-import com.tecst.tecst.domain.redis.config.RedisRepositoryConfig;
 import com.tecst.tecst.domain.user.dto.request.CreateUserRequestDto;
 import com.tecst.tecst.domain.user.dto.request.UserLoginRequestDto;
 import com.tecst.tecst.domain.user.entity.User;
+import com.tecst.tecst.domain.user.exception.EmailDuplicated;
+import com.tecst.tecst.domain.user.exception.UserNotFound;
 import com.tecst.tecst.domain.user.mapper.UserMapper;
 import com.tecst.tecst.domain.user.repository.UserRepository;
-import com.tecst.tecst.global.result.ResultCode;
-import com.tecst.tecst.global.result.ResultResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -41,12 +40,14 @@ public class UserService {
     private final Response response;
 
     public void register(CreateUserRequestDto dto) {
+        if (userRepository.findByEmail(dto.getEmail()).isPresent()) throw new EmailDuplicated();
         User user = userMapper.toEntity(dto);
         userRepository.save(user);
     }
 
     @Transactional
     public TokenInfo login(UserLoginRequestDto dto) {
+        userRepository.findByEmail(dto.getEmail()).orElseThrow(UserNotFound::new);
         // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
         // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());
@@ -120,7 +121,7 @@ public class UserService {
     }
 
     public User findUserById(UUID userId) {
-        return userRepository.findById(userId).orElseThrow(null);
+        return userRepository.findById(userId).orElseThrow(UserNotFound::new);
     }
 
 }
