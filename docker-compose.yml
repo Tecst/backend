@@ -38,7 +38,5 @@ services:
       SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${DB_ROOT_PASSWORD}
     env_file: ./.env
-    links:
-      - mysql
 
 
