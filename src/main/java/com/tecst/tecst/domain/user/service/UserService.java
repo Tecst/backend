@@ -8,6 +8,7 @@ import com.tecst.tecst.domain.auth.dto.TokenInfo;
 import com.tecst.tecst.domain.user.dto.request.CreateUserRequestDto;
 import com.tecst.tecst.domain.user.dto.request.UserLoginRequestDto;
 import com.tecst.tecst.domain.user.entity.User;
+import com.tecst.tecst.domain.user.exception.BadCredential;
 import com.tecst.tecst.domain.user.exception.EmailDuplicated;
 import com.tecst.tecst.domain.user.exception.UserNotFound;
 import com.tecst.tecst.domain.user.mapper.UserMapper;
@@ -49,6 +50,8 @@ public class UserService {
     @Transactional
     public TokenInfo login(UserLoginRequestDto dto) {
         userRepository.findByEmail(dto.getEmail()).orElseThrow(UserNotFound::new);
+        if(userRepository.findByEmailAndPassword(dto.getEmail(), dto.getPassword())==null)
+            throw new BadCredential();
         // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
         // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword());

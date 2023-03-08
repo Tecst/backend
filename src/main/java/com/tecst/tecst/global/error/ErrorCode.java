@@ -17,6 +17,7 @@ public enum ErrorCode {
     USER_USERNAME_DUPLICATED(409, "U003", "회원 아이디 중복"),
     INCORRECT_EMAIL_FORMAT(400, "U004", "잘못된 이메일 형식"),
     DUPLICATED_EMAIL(400, "U005", "이메일 중복"),
+    BAD_CREDENTIAL_ERROR(400, "U006", "회원 정보가 일치하지 않음"),
 
     // CommonQuestion
     QUESTIONS_TYPE_NOT_FOUND_ERROR(400, "Q001", "질문 형식을 찾을 수 없음"),
