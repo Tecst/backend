@@ -34,6 +34,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
                 .antMatchers("/api/v1/users/new", "/api/v1/users/login").permitAll()
+                .antMatchers("/actuator/**").access("hasRole('USER')")
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class);
@@ -42,10 +43,8 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> {
-            web.ignoring()
-                    .antMatchers("/actuator/**");
-        };
+        return (web) -> web.ignoring()
+                .antMatchers("/actuator/**");
     }
 
     @Bean
