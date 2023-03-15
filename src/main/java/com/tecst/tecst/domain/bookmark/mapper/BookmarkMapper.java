@@ -17,7 +17,7 @@ public class BookmarkMapper {
     private final CommonQuestionRepository commonQuestionRepository;
 
     public RegistBookmarkRequestDto toDto(Bookmark bookmark) {
-        return RegistBookmarkRequestDto.builder().build().builder().userId(bookmark.getUser().getUserId())
+        return RegistBookmarkRequestDto.builder().userId(bookmark.getUser().getUserId())
                 .commonQuestionId(bookmark.getCommonQuestion().getCommonQuestionId()).build();
     }
 
