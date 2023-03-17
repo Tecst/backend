@@ -33,12 +33,6 @@ public class User implements UserDetails {
     @Column(name = "Password", length = 30)
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Bookmark> bookmarks = new ArrayList<Bookmark>();
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Answer> answers = new ArrayList<Answer>();
-
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();

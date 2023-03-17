@@ -32,13 +32,6 @@ public class CommonQuestion {
     @Column(name = "Contents", length = 100)
     private String contents;
 
-    @OneToMany(mappedBy = "commonQuestion", cascade = CascadeType.ALL)
-    private List<Bookmark> bookmarks = new ArrayList<Bookmark>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "commonQuestion", cascade = CascadeType.ALL)
-    private List<Answer> answers = new ArrayList<Answer>();
-
     @Builder
     private CommonQuestion(Type type, String response, String contents) {
         this.type = type;
