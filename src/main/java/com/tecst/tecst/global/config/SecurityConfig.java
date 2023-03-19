@@ -1,4 +1,4 @@
-package com.tecst.tecst.domain.auth.cofig;
+package com.tecst.tecst.global.config;
 
 import com.tecst.tecst.domain.auth.jwt.JwtAuthenticationFilter;
 import com.tecst.tecst.domain.auth.jwt.JwtTokenProvider;
