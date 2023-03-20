@@ -25,7 +25,7 @@ public enum ResultCode {
 
     // answers(사용자가 입력한 정답)
     REGISTER_ANSWER_SUCCESS("A001", "응답 등록 성공"),
-    COMMENT_FIND_SUCCESS("A002", "응답 찾기 성공"),
+    ANSWER_FIND_SUCCESS("A002", "응답 찾기 성공"),
     ;
 
     private final String code;

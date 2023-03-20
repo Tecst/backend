@@ -1,6 +1,7 @@
 package com.tecst.tecst.domain.answer.mapper;
 
 import com.tecst.tecst.domain.answer.dto.request.SaveAnswerRequestDto;
+import com.tecst.tecst.domain.answer.dto.response.GetAnswerResponseDto;
 import com.tecst.tecst.domain.answer.entity.Answer;
 import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
 import com.tecst.tecst.domain.user.entity.User;
@@ -12,5 +13,11 @@ public class AnswerMapper {
         Answer answer = Answer.builder().response(dto.getResponse()).type(dto.getType())
                 .user(user).commonQuestion(commonQuestion).build();
         return answer;
+    }
+
+    public GetAnswerResponseDto toDto(Answer answer) {
+        return GetAnswerResponseDto.builder().userId(answer.getAnswerId())
+                .type(answer.getType()).commonQuestionsId(answer.getCommonQuestion().getCommonQuestionId())
+                .response(answer.getResponse()).build();
     }
 }

@@ -2,6 +2,7 @@ package com.tecst.tecst.domain.answer.service;
 
 import com.tecst.tecst.domain.answer.ClovaSpeechClient;
 import com.tecst.tecst.domain.answer.dto.request.SaveAnswerRequestDto;
+import com.tecst.tecst.domain.answer.dto.response.GetAnswerResponseDto;
 import com.tecst.tecst.domain.answer.dto.response.GetVoiceAnswerResponseDto;
 import com.tecst.tecst.domain.answer.entity.Answer;
 import com.tecst.tecst.domain.answer.exception.AnswerNotFound;
@@ -26,6 +27,7 @@ public class AnswerService {
     private final AnswerMapper answerMapper;
     private final ClovaSpeechClient clovaSpeechClient;
 
+
     public void saveAnswer(SaveAnswerRequestDto dto, @Lazy User user, CommonQuestion commonquestion) {
         // Type이 voice면 STT 실행
         if (dto.getType().equals("voice")) {
@@ -45,5 +47,10 @@ public class AnswerService {
         dto.setAnswerId(id);
         dto.setResponse(result.getResponse());
         return dto;
+    }
+
+    public GetAnswerResponseDto getAnswer(UUID answersId) {
+        Answer answer = answerRepository.findById(answersId).get();
+        return answerMapper.toDto(answer);
     }
 }

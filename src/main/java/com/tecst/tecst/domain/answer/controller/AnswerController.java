@@ -1,6 +1,7 @@
 package com.tecst.tecst.domain.answer.controller;
 
 import com.tecst.tecst.domain.answer.dto.request.SaveAnswerRequestDto;
+import com.tecst.tecst.domain.answer.dto.response.GetAnswerResponseDto;
 import com.tecst.tecst.domain.answer.dto.response.GetVoiceAnswerResponseDto;
 import com.tecst.tecst.domain.answer.service.AnswerService;
 import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
@@ -18,6 +19,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.UUID;
 
+import static com.tecst.tecst.global.result.ResultCode.ANSWER_FIND_SUCCESS;
 import static com.tecst.tecst.global.result.ResultCode.REGISTER_ANSWER_SUCCESS;
 
 @Api(tags = "Common Question API")
@@ -50,5 +52,12 @@ public class AnswerController {
     @GetMapping("/voice-answers/{id}")
     public GetVoiceAnswerResponseDto GetRecord(@PathVariable UUID id) {
         return answerService.GetInterviewRecord(id);
+    }
+
+    @ApiOperation(value = "사용자가 입력한 답변 가져오기")
+    @GetMapping("/{answersId}")
+    public ResponseEntity<ResultResponse> getAnswer(@PathVariable UUID answersId) {
+        GetAnswerResponseDto dto = answerService.getAnswer(answersId);
+        return ResponseEntity.ok(ResultResponse.of(ANSWER_FIND_SUCCESS, dto));
     }
 }
