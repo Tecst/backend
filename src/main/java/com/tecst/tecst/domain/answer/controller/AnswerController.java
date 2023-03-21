@@ -22,7 +22,7 @@ import java.util.UUID;
 import static com.tecst.tecst.global.result.ResultCode.ANSWER_FIND_SUCCESS;
 import static com.tecst.tecst.global.result.ResultCode.REGISTER_ANSWER_SUCCESS;
 
-@Api(tags = "Common Question API")
+@Api(tags = "Answer API")
 @RestController
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @RequestMapping("/api/v1/interview/answers")
