@@ -35,8 +35,8 @@ public class UserController {
     @ApiOperation(value = "회원가입")
     @PostMapping("/new")
     public ResponseEntity<ResultResponse> registration(@Valid @RequestBody CreateUserRequestDto dto) {
-        userService.register(dto);
-        return ResponseEntity.ok(ResultResponse.of(USER_REGISTRATION_SUCCESS, dto));
+        CreateUserResponseDto result = userService.register(dto);
+        return ResponseEntity.ok(ResultResponse.of(USER_REGISTRATION_SUCCESS, result));
     }
 
     @ApiOperation(value = "로그인")

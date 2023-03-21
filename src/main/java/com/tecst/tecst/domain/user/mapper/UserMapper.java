@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class UserMapper {
-    public CreateUserResponseDto toDto(User user) {return CreateUserResponseDto.builder().build().builder().userId(user.getUserId()).email(user.getEmail()).build();}
+    public CreateUserResponseDto toDto(User user) {return CreateUserResponseDto.builder().userId(user.getUserId()).email(user.getEmail()).build();}
 
     public User toEntity(CreateUserRequestDto dto) {
         User user = User.builder()
@@ -21,6 +21,7 @@ public class UserMapper {
                         .build();
         return user;
     }
+
 
 //    public List<UserDto.RegisterResponse> toDtoList(List<User> list) {
 //        return list.stream().map(this::toDto).collect(Collectors.toList());

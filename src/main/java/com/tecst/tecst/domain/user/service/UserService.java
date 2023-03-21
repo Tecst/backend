@@ -7,6 +7,7 @@ import com.tecst.tecst.domain.auth.jwt.JwtTokenProvider;
 import com.tecst.tecst.domain.auth.dto.TokenInfo;
 import com.tecst.tecst.domain.user.dto.request.CreateUserRequestDto;
 import com.tecst.tecst.domain.user.dto.request.UserLoginRequestDto;
+import com.tecst.tecst.domain.user.dto.response.CreateUserResponseDto;
 import com.tecst.tecst.domain.user.entity.User;
 import com.tecst.tecst.domain.user.exception.BadCredential;
 import com.tecst.tecst.domain.user.exception.EmailDuplicated;
@@ -41,10 +42,11 @@ public class UserService {
     private final RedisTemplate redisTemplate;
     private final Response response;
 
-    public void register(CreateUserRequestDto dto) {
+    public CreateUserResponseDto register(CreateUserRequestDto dto) {
         if (userRepository.findByEmail(dto.getEmail()).isPresent()) throw new EmailDuplicated();
         User user = userMapper.toEntity(dto);
         userRepository.save(user);
+        return userMapper.toDto(user);
     }
 
     @Transactional
