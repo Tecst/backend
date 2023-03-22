@@ -11,7 +11,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
 public class Bookmark {

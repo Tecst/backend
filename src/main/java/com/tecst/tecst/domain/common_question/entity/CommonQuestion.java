@@ -16,7 +16,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class CommonQuestion {
     @Id
