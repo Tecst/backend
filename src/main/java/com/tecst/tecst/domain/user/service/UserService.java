@@ -126,7 +126,7 @@ public class UserService {
         return response.success("로그아웃 되었습니다.");
     }
 
-    public User findUserById(UUID userId) {
+    public User findUserById(Long userId) {
         return userRepository.findById(userId).orElseThrow(UserNotFound::new);
     }
 

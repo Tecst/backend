@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface BookmarkRepository extends JpaRepository<Bookmark, UUID> {
+public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 
-    Optional<Bookmark> findByBookmarkId(UUID id);
+    Optional<Bookmark> findByBookmarkId(Long id);
 
-    Bookmark findByUser_UserIdAndCommonQuestion_CommonQuestionId(UUID userId, Long commonQuestionId);
+    Bookmark findByUser_UserIdAndCommonQuestion_CommonQuestionId(Long userId, Long commonQuestionId);
 }

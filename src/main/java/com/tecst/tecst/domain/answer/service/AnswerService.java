@@ -41,7 +41,7 @@ public class AnswerService {
         answerRepository.save(answer);
     }
 
-    public GetVoiceAnswerResponseDto GetInterviewRecord(UUID id) {
+    public GetVoiceAnswerResponseDto GetInterviewRecord(Long id) {
         Answer result = answerRepository.findById(id).orElseThrow(AnswerNotFound::new);
         GetVoiceAnswerResponseDto dto = new GetVoiceAnswerResponseDto();
         dto.setAnswerId(id);
@@ -49,7 +49,7 @@ public class AnswerService {
         return dto;
     }
 
-    public GetAnswerResponseDto getAnswer(UUID answersId) {
+    public GetAnswerResponseDto getAnswer(Long answersId) {
         Answer answer = answerRepository.findById(answersId).get();
         return answerMapper.toDto(answer);
     }

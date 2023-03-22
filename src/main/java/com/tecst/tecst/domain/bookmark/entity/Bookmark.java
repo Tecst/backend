@@ -16,9 +16,9 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 public class Bookmark {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID bookmarkId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "bookmark_id")
+    private Long bookmarkId;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "userId")

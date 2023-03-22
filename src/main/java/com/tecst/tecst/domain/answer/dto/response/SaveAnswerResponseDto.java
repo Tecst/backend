@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class SaveAnswerResponseDto {
-    private UUID user_id;
+    private Long user_id;
     private String type;
     private Long common_questions_id;
     private String response;

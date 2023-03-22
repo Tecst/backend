@@ -45,7 +45,7 @@ public class BookmarkController {
 
     @ApiOperation(value = "북마크에서 선택한 질문 삭제")
     @DeleteMapping("/{id}")
-    public DeleteBookmarkResponseDto DeleteBookmark(@PathVariable UUID id) {
+    public DeleteBookmarkResponseDto DeleteBookmark(@PathVariable Long id) {
         return bookmarkService.DeleteBookmark(id);
     }
 }

@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class GetVoiceAnswerResponseDto {
-    private UUID answerId;
+    private Long answerId;
     private String response;
 
     public GetVoiceAnswerResponseDto() {}

@@ -12,9 +12,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class DeleteBookmarkResponseDto {
-    private UUID bookmark_id;
+    private Long bookmark_id;
     private Long common_questions_id;
-    private UUID user_id;
+    private Long user_id;
 
     public DeleteBookmarkResponseDto() {}
 }

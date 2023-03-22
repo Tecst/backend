@@ -50,13 +50,13 @@ public class AnswerController {
 
     @ApiOperation(value = "녹음 조회")
     @GetMapping("/voice-answers/{id}")
-    public GetVoiceAnswerResponseDto GetRecord(@PathVariable UUID id) {
+    public GetVoiceAnswerResponseDto GetRecord(@PathVariable Long id) {
         return answerService.GetInterviewRecord(id);
     }
 
     @ApiOperation(value = "사용자가 입력한 답변 가져오기")
     @GetMapping("/{answersId}")
-    public ResponseEntity<ResultResponse> getAnswer(@PathVariable UUID answersId) {
+    public ResponseEntity<ResultResponse> getAnswer(@PathVariable Long answersId) {
         GetAnswerResponseDto dto = answerService.getAnswer(answersId);
         return ResponseEntity.ok(ResultResponse.of(ANSWER_FIND_SUCCESS, dto));
     }

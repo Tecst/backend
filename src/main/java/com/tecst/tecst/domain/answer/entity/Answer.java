@@ -16,9 +16,9 @@ import static javax.persistence.FetchType.*;
 @Entity
 public class Answer {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID answerId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "answer_id")
+    private Long answerId;
 
     @Column(name = "Type", length = 20)
     private String type;

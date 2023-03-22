@@ -13,5 +13,5 @@ import java.util.UUID;
 @Builder
 public class RegistBookmarkRequestDto {
     private Long commonQuestionId;
-    private UUID userId;
+    private Long userId;
 }

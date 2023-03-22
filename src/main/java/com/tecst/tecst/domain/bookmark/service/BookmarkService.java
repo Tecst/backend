@@ -30,7 +30,7 @@ public class BookmarkService {
         bookmarkRepository.save(bookmark);
     }
         
-    public DeleteBookmarkResponseDto DeleteBookmark(UUID bookmarkId) {
+    public DeleteBookmarkResponseDto DeleteBookmark(Long bookmarkId) {
         Bookmark result = bookmarkRepository.findById(bookmarkId).orElseThrow(null);
         bookmarkRepository.deleteById(bookmarkId);
         DeleteBookmarkResponseDto dto = new DeleteBookmarkResponseDto();

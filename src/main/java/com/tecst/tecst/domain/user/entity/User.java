@@ -23,14 +23,14 @@ import java.util.stream.Collectors;
 @Entity
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID userId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
+    private Long userId;
 
-    @Column(name = "Email", length = 30)
+    @Column(name = "email", length = 30)
     private String email;
 
-    @Column(name = "Password", length = 30)
+    @Column(name = "password", length = 30)
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)
