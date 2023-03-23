@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.UUID;
 
 @Service
 @Log4j2
@@ -34,9 +33,7 @@ public class AnswerService {
             ClovaSpeechClient.NestRequestEntity requestEntity = new ClovaSpeechClient.NestRequestEntity();
             final String result = clovaSpeechClient.objectStorage(dto.getResponse(), requestEntity);
             dto.setResponse(result);
-
         }
-
         Answer answer = answerMapper.toEntity(dto, user, commonquestion);
         answerRepository.save(answer);
     }

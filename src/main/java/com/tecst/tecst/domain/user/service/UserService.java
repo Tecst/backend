@@ -24,10 +24,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-
 import javax.transaction.Transactional;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service

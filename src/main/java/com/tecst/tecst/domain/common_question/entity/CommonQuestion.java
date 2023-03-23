@@ -1,20 +1,14 @@
 package com.tecst.tecst.domain.common_question.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tecst.tecst.domain.answer.entity.Answer;
-import com.tecst.tecst.domain.bookmark.entity.Bookmark;
 import com.tecst.tecst.domain.common_question.enumeration.Type;
-import com.tecst.tecst.domain.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
-import static javax.persistence.FetchType.LAZY;
 
 @Getter
+@Builder
+@AllArgsConstructor
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -31,11 +25,4 @@ public class CommonQuestion {
 
     @Column(name = "Contents", length = 100)
     private String contents;
-
-    @Builder
-    private CommonQuestion(Type type, String response, String contents) {
-        this.type = type;
-        this.response = response;
-        this.contents = contents;
-    }
 }

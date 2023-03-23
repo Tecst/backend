@@ -5,7 +5,6 @@ import com.tecst.tecst.domain.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -13,6 +12,7 @@ import static javax.persistence.FetchType.LAZY;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Builder
 @Entity
 public class Bookmark {
     @Id
@@ -27,10 +27,4 @@ public class Bookmark {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "commonQuestionId")
     private CommonQuestion commonQuestion;
-
-    @Builder
-    private Bookmark(User user, CommonQuestion commonQuestion) {
-        this.user = user;
-        this.commonQuestion = commonQuestion;
-    }
 }

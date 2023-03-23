@@ -5,7 +5,6 @@ import com.tecst.tecst.domain.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 import static javax.persistence.FetchType.*;
 
@@ -14,6 +13,7 @@ import static javax.persistence.FetchType.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
+@Builder
 public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,13 +33,5 @@ public class Answer {
     @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "userId")
     private User user;
-
-    @Builder
-    private Answer(User user, String type, CommonQuestion commonQuestion, String response) {
-        this.user = user;
-        this.type = type;
-        this.commonQuestion = commonQuestion;
-        this.response = response;
-    }
 
 }
