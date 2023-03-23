@@ -31,8 +31,8 @@ public class CommonQuestionService {
         }
 
         List<CommonQuestionResponseDto> result;
-        if (type.name().equals("all")) result = commonQuestionRepository.findAllByCommonQuestionIdExists(count);
-        else result = commonQuestionRepository.findCommonQuestionsByType(type, count);
+        if (type.name().equals("all")) result = commonQuestionRepository.findQuestions(count);
+        else result = commonQuestionRepository.findQuestionsByType(type, count);
         GetCommonQuestionsResponseDto dto = new GetCommonQuestionsResponseDto();
         dto.setType(type);
         dto.setCount(count);

@@ -12,10 +12,10 @@ import java.util.Optional;
 public interface CommonQuestionRepository extends JpaRepository<CommonQuestion, Long> {
 
     @Query(value = "select distinct * from common_question where type = :#{#type.name()} order by rand() limit :count", nativeQuery = true)
-    List<CommonQuestionResponseDto> findCommonQuestionsByType(Type type, int count);
+    List<CommonQuestionResponseDto> findQuestionsByType(Type type, int count);
 
     @Query(value = "select * from common_question order by rand() limit :count", nativeQuery = true)
-    List<CommonQuestionResponseDto>findAllByCommonQuestionIdExists(int count);
+    List<CommonQuestionResponseDto>findQuestions(int count);
 
 
     Optional<CommonQuestion> findByCommonQuestionId(Long id);
