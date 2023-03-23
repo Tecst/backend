@@ -16,8 +16,8 @@ public class AnswerMapper {
     }
 
     public GetAnswerResponseDto toDto(Answer answer) {
-        return GetAnswerResponseDto.builder().userId(answer.getAnswerId())
+        return GetAnswerResponseDto.builder().userId(answer.getUser().getUserId())
                 .type(answer.getType()).commonQuestionsId(answer.getCommonQuestion().getCommonQuestionId())
-                .response(answer.getResponse()).build();
+                .response(answer.getResponse()).answerId(answer.getAnswerId()).build();
     }
 }

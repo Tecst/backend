@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 
-import java.util.UUID;
 
 import static com.tecst.tecst.global.result.ResultCode.ANSWER_FIND_SUCCESS;
 import static com.tecst.tecst.global.result.ResultCode.REGISTER_ANSWER_SUCCESS;
@@ -33,18 +32,17 @@ public class AnswerController {
     @ApiOperation(value = "사용자가 입력한 정답 저장")
     @PostMapping("/new")
     // 답변 저장
-    public ResponseEntity<ResultResponse> SaveAnswer(@RequestBody SaveAnswerRequestDto dto, @ApiIgnore User user) {
-        CommonQuestion commonQuestion = commonQuestionService.findCommonQuestionById(dto.getCommon_questions_id());
-        answerService.saveAnswer(dto, user, commonQuestion);
-        return ResponseEntity.ok(ResultResponse.of(REGISTER_ANSWER_SUCCESS, dto));
+    public ResponseEntity<ResultResponse> SaveAnswer(@RequestBody SaveAnswerRequestDto dto) {
+        GetAnswerResponseDto responseDto = answerService.saveAnswer(dto);
+        return ResponseEntity.ok(ResultResponse.of(REGISTER_ANSWER_SUCCESS, responseDto));
     }
 
     @ApiOperation(value = "녹음 파일을 버킷에 전달 후 STT 실행")
     @PostMapping("/voice-answers/new")
     // 답변 저장
     public ResponseEntity<ResultResponse> SaveVoiceAnswer(@RequestBody SaveAnswerRequestDto dto, @ApiIgnore User user) {
-        CommonQuestion commonQuestion = commonQuestionService.findCommonQuestionById(dto.getCommon_questions_id());
-        answerService.saveAnswer(dto, user, commonQuestion);
+        CommonQuestion commonQuestion = commonQuestionService.findCommonQuestionById(dto.getCommonQuestionsId());
+        answerService.saveAnswer(dto);
         return ResponseEntity.ok(ResultResponse.of(REGISTER_ANSWER_SUCCESS, dto));
     }
 

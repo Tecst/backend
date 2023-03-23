@@ -12,7 +12,8 @@ import lombok.Setter;
 @Builder
 public class GetAnswerResponseDto {
     private Long userId;
-    private String type;
     private Long commonQuestionsId;
+    private Long answerId;
+    private String type;
     private String response;
 }

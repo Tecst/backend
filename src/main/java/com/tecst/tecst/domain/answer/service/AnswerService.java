@@ -9,7 +9,11 @@ import com.tecst.tecst.domain.answer.exception.AnswerNotFound;
 import com.tecst.tecst.domain.answer.mapper.AnswerMapper;
 import com.tecst.tecst.domain.answer.repository.AnswerRepository;
 import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
+import com.tecst.tecst.domain.common_question.exception.QuestionNotFound;
+import com.tecst.tecst.domain.common_question.repository.CommonQuestionRepository;
 import com.tecst.tecst.domain.user.entity.User;
+import com.tecst.tecst.domain.user.exception.UserNotFound;
+import com.tecst.tecst.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Lazy;
@@ -23,19 +27,25 @@ import javax.transaction.Transactional;
 @Transactional
 public class AnswerService {
     private final AnswerRepository answerRepository;
+    private final CommonQuestionRepository commonQuestionRepository;
+    private final UserRepository userRepository;
     private final AnswerMapper answerMapper;
     private final ClovaSpeechClient clovaSpeechClient;
 
 
-    public void saveAnswer(SaveAnswerRequestDto dto, @Lazy User user, CommonQuestion commonquestion) {
+    public GetAnswerResponseDto saveAnswer(SaveAnswerRequestDto dto) {
         // Type이 voice면 STT 실행
         if (dto.getType().equals("voice")) {
             ClovaSpeechClient.NestRequestEntity requestEntity = new ClovaSpeechClient.NestRequestEntity();
             final String result = clovaSpeechClient.objectStorage(dto.getResponse(), requestEntity);
             dto.setResponse(result);
         }
-        Answer answer = answerMapper.toEntity(dto, user, commonquestion);
+        CommonQuestion commonQuestion = commonQuestionRepository.findById(dto.getCommonQuestionsId()).orElseThrow(QuestionNotFound::new);
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(UserNotFound::new);
+
+        Answer answer = answerMapper.toEntity(dto, user, commonQuestion);
         answerRepository.save(answer);
+        return answerMapper.toDto(answer);
     }
 
     public GetVoiceAnswerResponseDto GetInterviewRecord(Long id) {
