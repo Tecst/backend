@@ -57,7 +57,7 @@ public class AnswerService {
     }
 
     public GetAnswerResponseDto getAnswer(Long answersId) {
-        Answer answer = answerRepository.findById(answersId).get();
+        Answer answer = answerRepository.findById(answersId).orElseThrow(AnswerNotFound::new);
         return answerMapper.toDto(answer);
     }
 }
