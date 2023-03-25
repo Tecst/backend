@@ -14,11 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.tecst.tecst.global.result.ResultCode.BOOKMARK_REGISTRATION_SUCCESS;
 
@@ -34,7 +30,7 @@ public class BookmarkController {
     private final UserService userService;
 
     @ApiOperation(value = "북마크 등록")
-    @GetMapping("/new")
+    @PostMapping("/new")
     public ResponseEntity<ResultResponse> registBookmark(RegistBookmarkRequestDto dto) {
         commonQuestionService.findCommonQuestionById(dto.getCommonQuestionId());
         userService.findUserById(dto.getUserId());
