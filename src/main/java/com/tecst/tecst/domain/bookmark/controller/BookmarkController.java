@@ -2,6 +2,7 @@ package com.tecst.tecst.domain.bookmark.controller;
 
 import com.tecst.tecst.domain.bookmark.dto.request.RegistBookmarkRequestDto;
 import com.tecst.tecst.domain.bookmark.dto.response.DeleteBookmarkResponseDto;
+import com.tecst.tecst.domain.bookmark.dto.response.GetBookmarkResponseDto;
 import com.tecst.tecst.domain.bookmark.service.BookmarkService;
 import com.tecst.tecst.domain.common_question.service.CommonQuestionService;
 import com.tecst.tecst.domain.user.service.UserService;
@@ -42,5 +43,11 @@ public class BookmarkController {
     @DeleteMapping("/{id}")
     public DeleteBookmarkResponseDto DeleteBookmark(@PathVariable Long id) {
         return bookmarkService.DeleteBookmark(id);
+    }
+
+    @ApiOperation(value = "특정 사용자의 모든 북마크 조회")
+    @GetMapping("/{userId}")
+    public GetBookmarkResponseDto GetBookmark(@PathVariable Long userId) {
+        return bookmarkService.GetBookmarks(userId);
     }
 }
