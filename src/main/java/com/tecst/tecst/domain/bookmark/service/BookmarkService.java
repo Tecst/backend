@@ -6,6 +6,7 @@ import com.tecst.tecst.domain.bookmark.dto.response.DeleteBookmarkResponseDto;
 import com.tecst.tecst.domain.bookmark.dto.response.GetBookmarkResponseDto;
 import com.tecst.tecst.domain.bookmark.entity.Bookmark;
 import com.tecst.tecst.domain.bookmark.exception.BookmarkDuplicated;
+import com.tecst.tecst.domain.bookmark.exception.BookmarkNotFound;
 import com.tecst.tecst.domain.bookmark.mapper.BookmarkMapper;
 
 import com.tecst.tecst.domain.bookmark.repository.BookmarkRepository;
@@ -33,7 +34,7 @@ public class BookmarkService {
     }
         
     public DeleteBookmarkResponseDto DeleteBookmark(Long bookmarkId) {
-        Bookmark result = bookmarkRepository.findById(bookmarkId).orElseThrow(null);
+        Bookmark result = bookmarkRepository.findById(bookmarkId).orElseThrow(BookmarkNotFound::new);
         bookmarkRepository.deleteById(bookmarkId);
         DeleteBookmarkResponseDto dto = new DeleteBookmarkResponseDto();
         dto.setBookmark_id(bookmarkId);
