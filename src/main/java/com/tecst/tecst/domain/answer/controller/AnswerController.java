@@ -1,6 +1,7 @@
 package com.tecst.tecst.domain.answer.controller;
 
 import com.tecst.tecst.domain.answer.dto.request.SaveAnswerRequestDto;
+import com.tecst.tecst.domain.answer.dto.request.SaveVoiceAnswerRequestDto;
 import com.tecst.tecst.domain.answer.dto.response.GetAnswerResponseDto;
 import com.tecst.tecst.domain.answer.dto.response.GetVoiceAnswerResponseDto;
 import com.tecst.tecst.domain.answer.service.AnswerService;
@@ -16,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-
+import java.io.IOException;
 
 import static com.tecst.tecst.global.result.ResultCode.ANSWER_FIND_SUCCESS;
 import static com.tecst.tecst.global.result.ResultCode.REGISTER_ANSWER_SUCCESS;
@@ -37,7 +38,14 @@ public class AnswerController {
         return ResponseEntity.ok(ResultResponse.of(REGISTER_ANSWER_SUCCESS, responseDto));
     }
 
-    @ApiOperation(value = "녹음 파일을 버킷에 전달 후 STT 실행")
+   @ApiOperation(value = "녹음 파일 버킷에 전달")
+    @PostMapping(value="/voice-answers/upload/new", consumes = {"multipart/form-data"})
+    public ResponseEntity<ResultResponse> UploadToS3(@ModelAttribute SaveVoiceAnswerRequestDto dto) throws IOException {
+        GetAnswerResponseDto responseDto = answerService.uploadToS3(dto);
+        return ResponseEntity.ok(ResultResponse.of(REGISTER_ANSWER_SUCCESS, responseDto));
+    }
+
+    @ApiOperation(value = "STT 실행")
     @PostMapping("/voice-answers/new")
     // 답변 저장
     public ResponseEntity<ResultResponse> SaveVoiceAnswer(@RequestBody SaveAnswerRequestDto dto, @ApiIgnore User user) {

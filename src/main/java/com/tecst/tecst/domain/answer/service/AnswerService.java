@@ -1,7 +1,10 @@
 package com.tecst.tecst.domain.answer.service;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.*;
 import com.tecst.tecst.domain.answer.ClovaSpeechClient;
 import com.tecst.tecst.domain.answer.dto.request.SaveAnswerRequestDto;
+import com.tecst.tecst.domain.answer.dto.request.SaveVoiceAnswerRequestDto;
 import com.tecst.tecst.domain.answer.dto.response.GetAnswerResponseDto;
 import com.tecst.tecst.domain.answer.dto.response.GetVoiceAnswerResponseDto;
 import com.tecst.tecst.domain.answer.entity.Answer;
@@ -17,9 +20,14 @@ import com.tecst.tecst.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Lazy;
+import org.apache.tika.Tika;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.util.Objects;
 
 @Service
 @Log4j2
@@ -31,6 +39,10 @@ public class AnswerService {
     private final UserRepository userRepository;
     private final AnswerMapper answerMapper;
     private final ClovaSpeechClient clovaSpeechClient;
+    private final AmazonS3 amazonS3;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
 
     public GetAnswerResponseDto saveAnswer(SaveAnswerRequestDto dto) {
@@ -59,5 +71,40 @@ public class AnswerService {
     public GetAnswerResponseDto getAnswer(Long answersId) {
         Answer answer = answerRepository.findById(answersId).orElseThrow(AnswerNotFound::new);
         return answerMapper.toDto(answer);
+    }
+
+    public GetAnswerResponseDto uploadToS3(SaveVoiceAnswerRequestDto dto) throws IOException {
+        Long userId = dto.getUserId();
+        Long commonQuestionsId = dto.getCommonQuestionsId();
+        String fileName = dto.getMultipartFile().getOriginalFilename();
+
+        int fileExtensionIndex = Objects.requireNonNull(fileName).lastIndexOf(".");
+        String fileExtension = fileName.substring(fileExtensionIndex);
+        String currentTime = String.valueOf(System.currentTimeMillis());
+
+        String s3FileName = userId + "/" + commonQuestionsId + "-" + currentTime + fileExtension;
+        // UUID.randomUUID() + "-" + multipartFile.getOriginalFilename();
+
+        ObjectMetadata objMeta = new ObjectMetadata();
+        objMeta.setContentType("audio/wmv");
+        objMeta.setContentLength(dto.getMultipartFile().getInputStream().available());
+        amazonS3.putObject(new PutObjectRequest(bucket, s3FileName, dto.getMultipartFile().getInputStream(), objMeta)
+                .withCannedAcl(CannedAccessControlList.PublicRead));
+
+        String UploadUrl = amazonS3.getUrl(bucket, s3FileName).toString();
+
+        CommonQuestion commonQuestion = commonQuestionRepository.findById(dto.getCommonQuestionsId()).orElseThrow(QuestionNotFound::new);
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(UserNotFound::new);
+
+        Answer answer = answerMapper.UploadsToEntity(dto, user, commonQuestion, UploadUrl);
+        answerRepository.save(answer);
+
+        return answerMapper.toDto(answer);
+    }
+
+    // 파일 원본 형식 확인용
+    private String getExtension(MultipartFile file) throws IOException {
+        Tika tika = new Tika();
+        return tika.detect(file.getInputStream()).split("/")[1];
     }
 }
