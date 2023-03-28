@@ -6,7 +6,6 @@ scrape_configs:
     metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: ['springboot:8080']
-    bearer_token: jwtToken
 
   - job_name: prometheus
     static_configs:

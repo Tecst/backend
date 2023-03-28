@@ -36,7 +36,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .authorizeRequests()
                 .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
                 .antMatchers("/api/v1/users/new", "/api/v1/users/login").permitAll()
-                .antMatchers("/actuator/**").access("hasRole('USER')")
+                .antMatchers("/actuator/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .cors()
