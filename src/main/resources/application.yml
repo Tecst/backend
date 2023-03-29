@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: TECst
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  profiles:
+    include: docker
+
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    generate-ddl: false
+    properties:
+      hibernate:
+        format_sql: true
+        defer-datasource-initialization: true
+
+
+# Prometheus
+management:
+  endpoint:
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+  metrics:
+    tags:
+      application: TECst
