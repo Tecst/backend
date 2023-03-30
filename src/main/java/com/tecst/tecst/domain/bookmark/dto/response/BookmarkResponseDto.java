@@ -9,6 +9,4 @@ public interface BookmarkResponseDto {
     String getAnswer();
     String getAnswerType();
     String getAnswerURL();
-
-
 }
