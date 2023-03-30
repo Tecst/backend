@@ -28,9 +28,8 @@ import static com.tecst.tecst.global.result.ResultCode.REGISTER_ANSWER_SUCCESS;
 @RequestMapping("/api/v1/interview/answers")
 public class AnswerController {
     private final AnswerService answerService;
-    private final CommonQuestionService commonQuestionService;
 
-    @ApiOperation(value = "사용자가 입력한 정답 저장")
+    @ApiOperation(value = "텍스트 답변 저장")
     @PostMapping("/new")
     // 답변 저장
     public ResponseEntity<ResultResponse> SaveAnswer(@RequestBody SaveAnswerRequestDto dto) {
@@ -38,20 +37,11 @@ public class AnswerController {
         return ResponseEntity.ok(ResultResponse.of(REGISTER_ANSWER_SUCCESS, responseDto));
     }
 
-   @ApiOperation(value = "녹음 파일 버킷에 전달")
-    @PostMapping(value="/voice-answers/upload/new", consumes = {"multipart/form-data"})
-    public ResponseEntity<ResultResponse> UploadToS3(@ModelAttribute SaveVoiceAnswerRequestDto dto) throws IOException {
-        GetAnswerResponseDto responseDto = answerService.uploadToS3(dto);
+   @ApiOperation(value = "음성 답변 업로드 후 STT 실행 및 저장")
+    @PostMapping(value="/voice-answers/new", consumes = {"multipart/form-data"})
+    public ResponseEntity<ResultResponse> SaveVoiceAnswer(@ModelAttribute SaveVoiceAnswerRequestDto dto) throws IOException {
+        GetAnswerResponseDto responseDto = answerService.saveVoiceAnswer(dto);
         return ResponseEntity.ok(ResultResponse.of(REGISTER_ANSWER_SUCCESS, responseDto));
-    }
-
-    @ApiOperation(value = "STT 실행")
-    @PostMapping("/voice-answers/new")
-    // 답변 저장
-    public ResponseEntity<ResultResponse> SaveVoiceAnswer(@RequestBody SaveAnswerRequestDto dto, @ApiIgnore User user) {
-        CommonQuestion commonQuestion = commonQuestionService.findCommonQuestionById(dto.getCommonQuestionsId());
-        answerService.saveAnswer(dto);
-        return ResponseEntity.ok(ResultResponse.of(REGISTER_ANSWER_SUCCESS, dto));
     }
 
     @ApiOperation(value = "녹음 조회")
@@ -66,4 +56,5 @@ public class AnswerController {
         GetAnswerResponseDto dto = answerService.getAnswer(answersId);
         return ResponseEntity.ok(ResultResponse.of(ANSWER_FIND_SUCCESS, dto));
     }
+
 }

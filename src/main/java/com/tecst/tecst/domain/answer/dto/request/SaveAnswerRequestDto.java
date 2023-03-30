@@ -14,5 +14,5 @@ public class SaveAnswerRequestDto {
     private Long userId;
     private Long commonQuestionsId;
     private String type;
-    private String response;
+    private String answer;
 }
