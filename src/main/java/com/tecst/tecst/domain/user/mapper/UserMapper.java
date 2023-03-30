@@ -17,7 +17,7 @@ public class UserMapper {
         User user = User.builder()
                         .email(dto.getEmail())
                         .password(dto.getPassword())
-                        .roles(Collections.singletonList("USER"))
+                        .role("USER")
                         .build();
         return user;
     }

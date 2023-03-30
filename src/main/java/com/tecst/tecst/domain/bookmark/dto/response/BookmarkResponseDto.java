@@ -6,7 +6,7 @@ public interface BookmarkResponseDto {
     String getType();
     String getContents();
     String getResponse();
-    String getUserResponse();
-
-
+    String getAnswer();
+    String getAnswerType();
+    String getAnswerURL();
 }
