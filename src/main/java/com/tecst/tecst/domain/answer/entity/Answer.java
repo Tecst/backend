@@ -23,8 +23,11 @@ public class Answer {
     @Column(name = "Type", length = 20)
     private String type;
 
-    @Column(name = "Response", length = 100)
-    private String response;
+    @Column(name = "answer", length = 100)
+    private String answer;
+
+    @Column(name = "answerURL", length = 100)
+    private String answerURL;
 
     @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "commonQuestionId")

@@ -96,3 +96,4 @@ src/main/resources/application-jwt.yml
 src/main/resources/application-clova.properties
 /Users/yukeon/Desktop/Project/backend/prometheus.yml
 src/main/resources/application-redis.properties
+src/main/resources/application-aws.properties

@@ -12,9 +12,9 @@ import java.util.List;
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 
     Optional<Bookmark> findByBookmarkId(Long id);
-    
+
     Bookmark findByUser_UserIdAndCommonQuestion_CommonQuestionId(Long userId, Long commonQuestionId);
-    
+
     @Query(value = "select b.bookmark_id, cq.*, a.answer, a.answerURL, a.type as answerType from bookmark b" +
             " INNER JOIN common_question cq ON b.common_question_id = cq.common_question_id" +
             " INNER JOIN (" +

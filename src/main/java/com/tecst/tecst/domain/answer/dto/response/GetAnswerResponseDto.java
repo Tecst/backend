@@ -15,5 +15,6 @@ public class GetAnswerResponseDto {
     private Long commonQuestionsId;
     private Long answerId;
     private String type;
-    private String response;
+    private String answer;
+    private String answerURL;
 }
