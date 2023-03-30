@@ -1,7 +1,9 @@
 package com.tecst.tecst.domain.bookmark.service;
 
 import com.tecst.tecst.domain.bookmark.dto.request.RegistBookmarkRequestDto;
+import com.tecst.tecst.domain.bookmark.dto.response.BookmarkResponseDto;
 import com.tecst.tecst.domain.bookmark.dto.response.DeleteBookmarkResponseDto;
+import com.tecst.tecst.domain.bookmark.dto.response.GetBookmarkResponseDto;
 import com.tecst.tecst.domain.bookmark.entity.Bookmark;
 import com.tecst.tecst.domain.bookmark.exception.BookmarkDuplicated;
 import com.tecst.tecst.domain.bookmark.mapper.BookmarkMapper;
@@ -12,6 +14,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 
 @Service
@@ -36,6 +39,14 @@ public class BookmarkService {
         dto.setBookmark_id(bookmarkId);
         dto.setUser_id(result.getUser().getUserId());
         dto.setCommon_questions_id(result.getCommonQuestion().getCommonQuestionId());
+        return dto;
+    }
+
+    public GetBookmarkResponseDto GetBookmarks(Long userId) {
+        List<BookmarkResponseDto> result = bookmarkRepository.findBookmarksByUser(userId);
+        GetBookmarkResponseDto dto = new GetBookmarkResponseDto(userId, result);
+
+        dto.setUser_id(userId);
         return dto;
     }
 }
