@@ -12,7 +12,7 @@ import lombok.Setter;
 @Builder
 public class GetVoiceAnswerResponseDto {
     private Long answerId;
-    private String response;
+    private String answerURL;
 
     public GetVoiceAnswerResponseDto() {}
 }
