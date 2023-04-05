@@ -35,4 +35,13 @@ public class PersonalQuestion {
         this.response = response;
         this.content = content;
     }
+
+    public void update(String content,
+                       String response,
+                       Type type) {
+
+        this.content = content;
+        this.response = response;
+        this.type = type;
+    }
 }
