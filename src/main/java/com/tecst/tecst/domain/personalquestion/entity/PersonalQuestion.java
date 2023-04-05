@@ -7,11 +7,9 @@ import lombok.*;
 import javax.persistence.*;
 
 
-@Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class PersonalQuestion {
     @Id
     @GeneratedValue
@@ -29,4 +27,12 @@ public class PersonalQuestion {
 
     @Column(name = "content")
     private String content;
+
+    @Builder
+    public PersonalQuestion(User user, Type type, String response, String content) {
+        this.user = user;
+        this.type = type;
+        this.response = response;
+        this.content = content;
+    }
 }
