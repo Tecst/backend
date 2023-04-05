@@ -2,7 +2,9 @@ package com.tecst.tecst.domain.answer.entity;
 
 import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
 import com.tecst.tecst.domain.user.entity.User;
+import com.tecst.tecst.global.util.BaseEntity;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 
@@ -14,11 +16,8 @@ import static javax.persistence.FetchType.*;
 @AllArgsConstructor
 @Entity
 @Builder
-public class Answer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "answer_id")
-    private Long answerId;
+@Table(name = "answer")
+public class Answer extends BaseEntity {
 
     @Column(name = "Type", length = 20)
     private String type;

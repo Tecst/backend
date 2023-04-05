@@ -22,7 +22,7 @@ public class AnswerMapper {
                 .type(answer.getType())
                 .commonQuestionsId(answer.getCommonQuestion().getCommonQuestionId())
                 .answer(answer.getAnswer())
-                .answerId(answer.getAnswerId())
+                .answerId(answer.getId())
                 .answerURL(answer.getAnswerURL()).build();
     }
 
