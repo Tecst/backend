@@ -39,6 +39,11 @@ public class PersonalQuestionController {
                                                               @RequestBody UpdatePersonalQuestionRequest dto) {
         UpdatePersonalQuestionResponse result = personalQuestionService.updatePersonalQuestion(id, dto);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_UPDATE_SUCCESS, result));
+    }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResultResponse> deletePersonalQuestion(@PathVariable Long id) {
+        personalQuestionService.deletePersonalQuestion(id);
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_DELETE_SUCCESS));
     }
 }

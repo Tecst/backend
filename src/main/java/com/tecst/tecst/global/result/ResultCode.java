@@ -19,6 +19,7 @@ public enum ResultCode {
     QUESTION_CREATE_SUCCESS("Q001", "질문 생성 성공"),
     QUESTION_GET_SUCCESS("Q002", "질문 조회 성공"),
     QUESTION_UPDATE_SUCCESS("Q002", "질문 수정 성공"),
+    QUESTION_DELETE_SUCCESS("Q002", "질문 수정 성공"),
 
     // bookmark
     BOOKMARK_REGISTRATION_SUCCESS("B001", "북마크 등록 성공"),

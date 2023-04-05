@@ -47,6 +47,11 @@ public class PersonalQuestionService {
         target.update(dto.getContent(), dto.getResponse(), dto.getType());
         return UpdatePersonalQuestionResponse.from(target);
     }
+
+    public void deletePersonalQuestion(Long id) {
+        PersonalQuestion target = personalQuestionRepository.findById(id).orElseThrow(QuestionNotFound::new);
+        personalQuestionRepository.delete(target);
+    }
 }
 
 
