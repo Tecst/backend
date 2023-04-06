@@ -9,7 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 public class CreatePersonalQuestionRequest {
 
-    private Long userId;
     private String content;
     private String response;
     private Type type;

@@ -14,6 +14,8 @@ import com.tecst.tecst.global.error.ErrorCode;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -30,14 +32,19 @@ public class PersonalQuestionService {
 
     @Transactional
     public CreatePersonalQuestionResponse createPersonalQuestion(CreatePersonalQuestionRequest dto) {
-        User user = userRepository.findById(dto.getUserId()).get();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+        User user = userRepository.findByEmail(username).get();
         PersonalQuestion personalQuestion = dto.toEntity(user);
         PersonalQuestion savedQuestion = personalQuestionRepository.save(personalQuestion);
         return CreatePersonalQuestionResponse.from(savedQuestion);
     }
 
-    public GetPersonalQuestionResponse getPersonalQuestion(Long id) {
-        PersonalQuestion personalQuestion = personalQuestionRepository.findById(id).orElseThrow(QuestionNotFound::new);
+    public GetPersonalQuestionResponse getPersonalQuestion() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+        Long userId = userRepository.findByEmail(username).get().getUserId();
+        PersonalQuestion personalQuestion = personalQuestionRepository.findById(userId).orElseThrow(QuestionNotFound::new);
         return GetPersonalQuestionResponse.from(personalQuestion);
     }
 

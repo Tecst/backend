@@ -28,9 +28,9 @@ public class PersonalQuestionController {
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_CREATE_SUCCESS, result));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ResultResponse> getPersonalQuestion(@PathVariable Long id) {
-        GetPersonalQuestionResponse result = personalQuestionService.getPersonalQuestion(id);
+    @GetMapping
+    public ResponseEntity<ResultResponse> getPersonalQuestion() {
+        GetPersonalQuestionResponse result = personalQuestionService.getPersonalQuestion();
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_GET_SUCCESS, result));
     }
 
