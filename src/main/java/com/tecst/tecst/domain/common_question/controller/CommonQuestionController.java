@@ -11,13 +11,14 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-
 @Api(tags = "Common Question API")
 @RestController
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @RequestMapping("/api/v1/interview")
 public class CommonQuestionController {
     private final CommonQuestionService commonQuestionService;
+
+
 
     @ApiOperation(value = "선택한 분야의 질문 제공")
     @GetMapping("/questions")

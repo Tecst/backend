@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Getter
 @Builder
 @AllArgsConstructor
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class CommonQuestion {

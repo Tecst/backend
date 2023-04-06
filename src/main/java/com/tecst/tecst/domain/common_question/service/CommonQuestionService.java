@@ -10,9 +10,14 @@ import com.tecst.tecst.domain.common_question.exception.QuestionTypeNotFound;
 import com.tecst.tecst.domain.common_question.repository.CommonQuestionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 @Service
@@ -21,6 +26,22 @@ import java.util.List;
 @Transactional
 public class CommonQuestionService {
     private final CommonQuestionRepository commonQuestionRepository;
+
+    @PostConstruct
+    public void initQuestions() throws IOException {
+        ClassPathResource resource = new ClassPathResource("common_questions.txt");
+        BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
+        String s;
+        while ((s = br.readLine()) != null) {
+            String[] tmp = s.split(";");
+            CommonQuestion commonQuestion = CommonQuestion.builder().commonQuestionId(Long.valueOf(tmp[0]))
+                    .contents(tmp[1])
+                    .response(tmp[2])
+                    .type(Type.valueOf(tmp[3])).build();
+            commonQuestionRepository.save(commonQuestion);
+        }
+        br.close();
+    }
 
     public GetCommonQuestionsResponseDto GetQuestions(Type type, int count) {
 
