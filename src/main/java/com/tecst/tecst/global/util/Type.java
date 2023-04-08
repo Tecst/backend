@@ -1,4 +1,4 @@
-package com.tecst.tecst.domain.common_question.enumeration;
+package com.tecst.tecst.global.util;
 
 public enum Type {
     os, algorithm, network, web, architecture, language, all
