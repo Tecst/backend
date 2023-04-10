@@ -2,6 +2,7 @@ package com.tecst.tecst.domain.auth.service;
 
 import com.tecst.tecst.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,11 +25,18 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     // 해당하는 User 의 데이터가 존재한다면 UserDetails 객체로 만들어서 리턴
-    private UserDetails createUserDetails(com.tecst.tecst.domain.user.entity.User user) {
+    public UserDetails createUserDetails(com.tecst.tecst.domain.user.entity.User user) {
         return User.builder()
                 .username(user.getEmail())
                 .password(passwordEncoder.encode(user.getPassword()))
                 .roles(user.getRole())
                 .build();
+    }
+
+    public com.tecst.tecst.domain.user.entity.User getLoginUser(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+        com.tecst.tecst.domain.user.entity.User user = userRepository.findByEmail(username).get();
+        return user;
     }
 }
