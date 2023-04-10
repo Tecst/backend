@@ -1,4 +1,4 @@
-package com.tecst.tecst.domain.common_question.exception;
+package com.tecst.tecst.domain.question.exception;
 
 import com.tecst.tecst.global.error.ErrorCode;
 import com.tecst.tecst.global.error.exception.BusinessException;
