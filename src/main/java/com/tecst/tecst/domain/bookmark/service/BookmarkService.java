@@ -27,7 +27,7 @@ public class BookmarkService {
     private final BookmarkMapper bookmarkMapper;
 
     public void register(RegistBookmarkRequestDto dto) {
-        if(!(bookmarkRepository.findByUser_UserIdAndCommonQuestion_CommonQuestionId(dto.getUserId(), dto.getCommonQuestionId())==null))
+        if(!(bookmarkRepository.findByUser_UserIdAndQuestion_QuestionId(dto.getUserId(), dto.getQuestionId())==null))
             throw new BookmarkDuplicated();
         Bookmark bookmark = bookmarkMapper.toEntity(dto);
         bookmarkRepository.save(bookmark);
@@ -39,7 +39,7 @@ public class BookmarkService {
         DeleteBookmarkResponseDto dto = new DeleteBookmarkResponseDto();
         dto.setBookmark_id(bookmarkId);
         dto.setUser_id(result.getUser().getUserId());
-        dto.setCommon_questions_id(result.getCommonQuestion().getCommonQuestionId());
+        dto.setCommon_questions_id(result.getQuestion().getQuestionId());
         return dto;
     }
 

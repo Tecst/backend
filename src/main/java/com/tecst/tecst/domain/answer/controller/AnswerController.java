@@ -5,9 +5,6 @@ import com.tecst.tecst.domain.answer.dto.request.SaveVoiceAnswerRequestDto;
 import com.tecst.tecst.domain.answer.dto.response.GetAnswerResponseDto;
 import com.tecst.tecst.domain.answer.dto.response.GetVoiceAnswerResponseDto;
 import com.tecst.tecst.domain.answer.service.AnswerService;
-import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
-import com.tecst.tecst.domain.common_question.service.CommonQuestionService;
-import com.tecst.tecst.domain.user.entity.User;
 import com.tecst.tecst.global.result.ResultResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,7 +12,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.IOException;
 

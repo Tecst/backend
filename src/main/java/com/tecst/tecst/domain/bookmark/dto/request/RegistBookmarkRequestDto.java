@@ -11,6 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class RegistBookmarkRequestDto {
-    private Long commonQuestionId;
+    private Long questionId;
     private Long userId;
 }
