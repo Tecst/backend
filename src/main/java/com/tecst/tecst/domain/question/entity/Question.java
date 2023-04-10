@@ -19,23 +19,24 @@ import javax.persistence.*;
 public class Question {
     @Id
     @GeneratedValue
+    @Column(name = "question_id")
     private Long questionId;
 
     @Column(name = "type", length = 100)
     @Enumerated(EnumType.STRING)
     private Type type;
 
-    @Column(name = "Response", length = 500)
+    @Column(name = "response", length = 500)
     private String response;
 
-    @Column(name = "Contents", length = 100)
+    @Column(name = "content", length = 100)
     private String content;
 
     @Column(name = "is_deleted")
     private Boolean isDelete = Boolean.FALSE;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Builder
