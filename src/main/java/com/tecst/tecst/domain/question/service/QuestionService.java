@@ -70,6 +70,7 @@ public class QuestionService {
         br.close();
     }
 
+    // TODO 리펙토링 필요
     @Transactional
     public CreateQuestionResponse createQuestion(CreateQuestionRequest dto) {
         Question question = dto.toEntity(userService.getLoginUser());
