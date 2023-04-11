@@ -4,8 +4,6 @@ import com.tecst.tecst.domain.question.entity.Question;
 import com.tecst.tecst.global.util.Type;
 import lombok.*;
 
-import java.io.Serializable;
-
 @Builder
 @Data
 public class QuestionDTO {
