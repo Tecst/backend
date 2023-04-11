@@ -40,7 +40,7 @@ public class QuestionController {
     // TODO 권한별 작업
     @ApiOperation(value = "기본 제공 질문 중 선택한 분야의 질문 제공")
     @GetMapping("/common")
-    public GetCommonQuestionsResponse GetCommonQuestion(@RequestParam Type type, @RequestParam int count) {
+    public GetQuestionResponse GetCommonQuestion(@RequestParam Type type, @RequestParam int count) {
         return questionService.getCommonQuestion(type, count);
     }
 

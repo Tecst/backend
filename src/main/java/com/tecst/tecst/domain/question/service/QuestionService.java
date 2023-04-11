@@ -78,21 +78,19 @@ public class QuestionService {
         return CreateQuestionResponse.from(savedQuestion);
     }
 
-    public GetCommonQuestionsResponse getCommonQuestion(Type type, int count) {
+    public GetQuestionResponse getCommonQuestion(Type type, int count) {
         try {
             Type.valueOf(String.valueOf(type));
         } catch (IllegalArgumentException e) {
             throw new QuestionTypeNotFound();
         }
 
-        List<CommonQuestionResponse> result;
+        List<Question> result;
         if (type.name().equals("all")) result = questionRepository.findQuestions(count);
         else result = questionRepository.findQuestionsByType(type, count);
-        GetCommonQuestionsResponse dto = new GetCommonQuestionsResponse();
-        dto.setType(type);
-        dto.setCount(count);
-        dto.setQuestions_list(result);
-        return dto;
+        return new GetQuestionResponse(result.stream()
+                .map(QuestionDTO::listQuestionMapping)
+                .collect(Collectors.toList()));
     }
 
     public GetQuestionResponse getPersonalQuestion() {
