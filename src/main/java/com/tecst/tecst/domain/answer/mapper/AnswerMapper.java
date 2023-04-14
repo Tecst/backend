@@ -4,15 +4,15 @@ import com.tecst.tecst.domain.answer.dto.request.SaveAnswerRequestDto;
 import com.tecst.tecst.domain.answer.dto.request.SaveVoiceAnswerRequestDto;
 import com.tecst.tecst.domain.answer.dto.response.GetAnswerResponseDto;
 import com.tecst.tecst.domain.answer.entity.Answer;
-import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
+import com.tecst.tecst.domain.question.entity.Question;
 import com.tecst.tecst.domain.user.entity.User;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AnswerMapper {
-    public Answer toEntity(SaveAnswerRequestDto dto, User user, CommonQuestion commonQuestion) {
+    public Answer toEntity(SaveAnswerRequestDto dto, User user, Question commonQuestion) {
         Answer answer = Answer.builder().answer(dto.getAnswer()).type(dto.getType())
-                .user(user).commonQuestion(commonQuestion).build();
+                .user(user).question(commonQuestion).build();
         return answer;
     }
 
@@ -20,19 +20,19 @@ public class AnswerMapper {
         return GetAnswerResponseDto.builder()
                 .userId(answer.getUser().getUserId())
                 .type(answer.getType())
-                .commonQuestionsId(answer.getCommonQuestion().getCommonQuestionId())
+                .commonQuestionsId(answer.getQuestion().getQuestionId())
                 .answer(answer.getAnswer())
                 .answerId(answer.getAnswerId())
                 .answerURL(answer.getAnswerURL()).build();
     }
 
-    public Answer UploadsToEntity(SaveVoiceAnswerRequestDto dto, User user, CommonQuestion commonQuestion, String answerURL, String result) {
+    public Answer UploadsToEntity(SaveVoiceAnswerRequestDto dto, User user, Question commonQuestion, String answerURL, String result) {
         Answer voiceAnswer = Answer.builder()
                 .answer(result)
                 .answerURL(answerURL)
                 .type(dto.getType())
                 .user(user)
-                .commonQuestion(commonQuestion).build();
+                .question(commonQuestion).build();
         return voiceAnswer;
     }
 }

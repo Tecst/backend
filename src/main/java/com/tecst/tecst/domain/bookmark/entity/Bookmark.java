@@ -1,6 +1,6 @@
 package com.tecst.tecst.domain.bookmark.entity;
 
-import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
+import com.tecst.tecst.domain.question.entity.Question;
 import com.tecst.tecst.domain.user.entity.User;
 import lombok.*;
 
@@ -21,10 +21,10 @@ public class Bookmark {
     private Long bookmarkId;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "commonQuestionId")
-    private CommonQuestion commonQuestion;
+    @JoinColumn(name = "question_id")
+    private Question question;
 }

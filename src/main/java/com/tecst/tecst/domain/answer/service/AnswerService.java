@@ -11,9 +11,9 @@ import com.tecst.tecst.domain.answer.entity.Answer;
 import com.tecst.tecst.domain.answer.exception.AnswerNotFound;
 import com.tecst.tecst.domain.answer.mapper.AnswerMapper;
 import com.tecst.tecst.domain.answer.repository.AnswerRepository;
-import com.tecst.tecst.domain.common_question.entity.CommonQuestion;
-import com.tecst.tecst.domain.common_question.exception.QuestionNotFound;
-import com.tecst.tecst.domain.common_question.repository.CommonQuestionRepository;
+import com.tecst.tecst.domain.question.entity.Question;
+import com.tecst.tecst.domain.question.exception.QuestionNotFound;
+import com.tecst.tecst.domain.question.repository.QuestionRepository;
 import com.tecst.tecst.domain.user.entity.User;
 import com.tecst.tecst.domain.user.exception.UserNotFound;
 import com.tecst.tecst.domain.user.repository.UserRepository;
@@ -32,7 +32,7 @@ import java.util.Objects;
 @Transactional
 public class AnswerService {
     private final AnswerRepository answerRepository;
-    private final CommonQuestionRepository commonQuestionRepository;
+    private final QuestionRepository commonQuestionRepository;
     private final UserRepository userRepository;
     private final AnswerMapper answerMapper;
     private final ClovaSpeechClient clovaSpeechClient;
@@ -43,7 +43,7 @@ public class AnswerService {
 
 
     public GetAnswerResponseDto saveAnswer(SaveAnswerRequestDto dto) {
-        CommonQuestion commonQuestion = commonQuestionRepository.findById(dto.getCommonQuestionsId()).orElseThrow(QuestionNotFound::new);
+        Question commonQuestion = commonQuestionRepository.findById(dto.getCommonQuestionsId()).orElseThrow(QuestionNotFound::new);
         User user = userRepository.findById(dto.getUserId()).orElseThrow(UserNotFound::new);
 
         Answer answer = answerMapper.toEntity(dto, user, commonQuestion);
@@ -65,7 +65,7 @@ public class AnswerService {
     }
 
     public GetAnswerResponseDto saveVoiceAnswer(SaveVoiceAnswerRequestDto dto) throws IOException {
-        CommonQuestion commonQuestion = commonQuestionRepository.findById(dto.getCommonQuestionsId()).orElseThrow(QuestionNotFound::new);
+        Question commonQuestion = commonQuestionRepository.findById(dto.getCommonQuestionsId()).orElseThrow(QuestionNotFound::new);
         User user = userRepository.findById(dto.getUserId()).orElseThrow(UserNotFound::new);
 
         Long userId = dto.getUserId();
