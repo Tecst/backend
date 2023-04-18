@@ -17,6 +17,7 @@ import com.tecst.tecst.domain.question.repository.QuestionRepository;
 import com.tecst.tecst.domain.user.entity.User;
 import com.tecst.tecst.domain.user.exception.UserNotFound;
 import com.tecst.tecst.domain.user.repository.UserRepository;
+import com.tecst.tecst.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +34,7 @@ import java.util.Objects;
 public class AnswerService {
     private final AnswerRepository answerRepository;
     private final QuestionRepository commonQuestionRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final AnswerMapper answerMapper;
     private final ClovaSpeechClient clovaSpeechClient;
     private final AmazonS3 amazonS3;
@@ -43,8 +44,8 @@ public class AnswerService {
 
 
     public GetAnswerResponseDto saveAnswer(SaveAnswerRequestDto dto) {
-        Question commonQuestion = commonQuestionRepository.findById(dto.getCommonQuestionsId()).orElseThrow(QuestionNotFound::new);
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(UserNotFound::new);
+        Question commonQuestion = commonQuestionRepository.findById(dto.getQuestionsId()).orElseThrow(QuestionNotFound::new);
+        User user = userService.getLoginUser();
 
         Answer answer = answerMapper.toEntity(dto, user, commonQuestion);
         answerRepository.save(answer);
@@ -66,7 +67,7 @@ public class AnswerService {
 
     public GetAnswerResponseDto saveVoiceAnswer(SaveVoiceAnswerRequestDto dto) throws IOException {
         Question commonQuestion = commonQuestionRepository.findById(dto.getCommonQuestionsId()).orElseThrow(QuestionNotFound::new);
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(UserNotFound::new);
+        User user = userService.getLoginUser();
 
         Long userId = dto.getUserId();
         Long commonQuestionsId = dto.getCommonQuestionsId();
