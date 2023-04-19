@@ -1,6 +1,7 @@
 package com.tecst.tecst.domain.bookmark.controller;
 
 import com.tecst.tecst.domain.bookmark.dto.request.RegistBookmarkRequestDto;
+import com.tecst.tecst.domain.bookmark.dto.response.BookmarkResponseDto;
 import com.tecst.tecst.domain.bookmark.dto.response.DeleteBookmarkResponseDto;
 import com.tecst.tecst.domain.bookmark.dto.response.GetBookmarkResponseDto;
 import com.tecst.tecst.domain.bookmark.service.BookmarkService;
@@ -17,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.tecst.tecst.global.result.ResultCode.BOOKMARK_REGISTRATION_SUCCESS;
 
 @Api(tags = "Bookmark API")
@@ -24,17 +27,17 @@ import static com.tecst.tecst.global.result.ResultCode.BOOKMARK_REGISTRATION_SUC
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 
 
-@RequestMapping("/api/v1/interview/bookmarks")
+@RequestMapping("/api/v1/bookmark")
 public class BookmarkController {
     private final BookmarkService bookmarkService;
     private final QuestionService questionService;
     private final UserService userService;
 
     @ApiOperation(value = "북마크 등록")
-    @PostMapping("/new")
+    @PostMapping
     public ResponseEntity<ResultResponse> registBookmark(RegistBookmarkRequestDto dto) {
         questionService.findQuestionById(dto.getQuestionId());
-        userService.findUserById(dto.getUserId());
+//        userService.findUserById(dto.getUserId());
         bookmarkService.register(dto);
         return ResponseEntity.ok(ResultResponse.of(BOOKMARK_REGISTRATION_SUCCESS, dto));
     }
@@ -45,9 +48,9 @@ public class BookmarkController {
         return bookmarkService.DeleteBookmark(id);
     }
 
+    @GetMapping
     @ApiOperation(value = "특정 사용자의 모든 북마크 조회")
-    @GetMapping("/{userId}")
-    public GetBookmarkResponseDto GetBookmark(@PathVariable Long userId) {
-        return bookmarkService.GetBookmarks(userId);
+    public List<BookmarkResponseDto> GetBookmark() {
+        return bookmarkService.GetBookmarks();
     }
 }

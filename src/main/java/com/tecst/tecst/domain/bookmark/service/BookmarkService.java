@@ -1,5 +1,6 @@
 package com.tecst.tecst.domain.bookmark.service;
 
+import com.tecst.tecst.domain.auth.service.CustomUserDetailsService;
 import com.tecst.tecst.domain.bookmark.dto.request.RegistBookmarkRequestDto;
 import com.tecst.tecst.domain.bookmark.dto.response.BookmarkResponseDto;
 import com.tecst.tecst.domain.bookmark.dto.response.DeleteBookmarkResponseDto;
@@ -10,12 +11,15 @@ import com.tecst.tecst.domain.bookmark.exception.BookmarkNotFound;
 import com.tecst.tecst.domain.bookmark.mapper.BookmarkMapper;
 
 import com.tecst.tecst.domain.bookmark.repository.BookmarkRepository;
+import com.tecst.tecst.domain.user.entity.User;
+import com.tecst.tecst.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -25,6 +29,7 @@ import java.util.List;
 public class BookmarkService {
     private final BookmarkRepository bookmarkRepository;
     private final BookmarkMapper bookmarkMapper;
+    private final CustomUserDetailsService userService;
 
     public void register(RegistBookmarkRequestDto dto) {
         if(!(bookmarkRepository.findByUser_UserIdAndQuestion_QuestionId(dto.getUserId(), dto.getQuestionId())==null))
@@ -43,11 +48,14 @@ public class BookmarkService {
         return dto;
     }
 
-    public GetBookmarkResponseDto GetBookmarks(Long userId) {
-        List<BookmarkResponseDto> result = bookmarkRepository.findBookmarksByUser(userId);
-        GetBookmarkResponseDto dto = new GetBookmarkResponseDto(userId, result);
+    public List<BookmarkResponseDto> GetBookmarks() {
+        Long userId = userService.getLoginUser().getUserId();
+        List<BookmarkResponseDto> list = bookmarkRepository.findByUserUserId(userId)
+                .stream()
+                .map(Bookmark::getQuestion)
+                .map(BookmarkResponseDto::toBookmarkResponseDto)
+                .collect(Collectors.toList());
 
-        dto.setUser_id(userId);
-        return dto;
+        return list;
     }
 }
