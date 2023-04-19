@@ -5,6 +5,7 @@ import com.tecst.tecst.domain.bookmark.dto.response.BookmarkResponseDto;
 import com.tecst.tecst.domain.bookmark.dto.response.DeleteBookmarkResponseDto;
 import com.tecst.tecst.domain.bookmark.dto.response.GetBookmarkResponseDto;
 import com.tecst.tecst.domain.bookmark.service.BookmarkService;
+import com.tecst.tecst.domain.question.entity.Question;
 import com.tecst.tecst.domain.question.service.QuestionService;
 import com.tecst.tecst.domain.user.service.UserService;
 import com.tecst.tecst.global.result.ResultResponse;
@@ -31,13 +32,10 @@ import static com.tecst.tecst.global.result.ResultCode.BOOKMARK_REGISTRATION_SUC
 public class BookmarkController {
     private final BookmarkService bookmarkService;
     private final QuestionService questionService;
-    private final UserService userService;
 
     @ApiOperation(value = "북마크 등록")
     @PostMapping
-    public ResponseEntity<ResultResponse> registBookmark(RegistBookmarkRequestDto dto) {
-        questionService.findQuestionById(dto.getQuestionId());
-//        userService.findUserById(dto.getUserId());
+    public ResponseEntity<ResultResponse> registBookmark(@RequestBody RegistBookmarkRequestDto dto) {
         bookmarkService.register(dto);
         return ResponseEntity.ok(ResultResponse.of(BOOKMARK_REGISTRATION_SUCCESS, dto));
     }

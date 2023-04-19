@@ -11,6 +11,10 @@ import com.tecst.tecst.domain.bookmark.exception.BookmarkNotFound;
 import com.tecst.tecst.domain.bookmark.mapper.BookmarkMapper;
 
 import com.tecst.tecst.domain.bookmark.repository.BookmarkRepository;
+import com.tecst.tecst.domain.question.entity.Question;
+import com.tecst.tecst.domain.question.exception.QuestionNotFound;
+import com.tecst.tecst.domain.question.repository.QuestionRepository;
+import com.tecst.tecst.domain.question.service.QuestionService;
 import com.tecst.tecst.domain.user.entity.User;
 import com.tecst.tecst.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,13 +32,20 @@ import java.util.stream.Collectors;
 @Transactional
 public class BookmarkService {
     private final BookmarkRepository bookmarkRepository;
+    private final QuestionRepository questionRepository;
     private final BookmarkMapper bookmarkMapper;
     private final CustomUserDetailsService userService;
 
     public void register(RegistBookmarkRequestDto dto) {
-        if(!(bookmarkRepository.findByUser_UserIdAndQuestion_QuestionId(dto.getUserId(), dto.getQuestionId())==null))
+        User user = userService.getLoginUser();
+        Question question = questionRepository.findById(dto.getQuestionId()).orElseThrow(
+                () -> new QuestionNotFound());
+
+        if(!(bookmarkRepository.findByUser_UserIdAndQuestion_QuestionId(user.getUserId(),
+                dto.getQuestionId())==null))
             throw new BookmarkDuplicated();
-        Bookmark bookmark = bookmarkMapper.toEntity(dto);
+
+        Bookmark bookmark = bookmarkMapper.toEntity(question, user);
         bookmarkRepository.save(bookmark);
     }
         
