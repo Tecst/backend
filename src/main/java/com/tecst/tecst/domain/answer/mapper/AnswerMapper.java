@@ -1,7 +1,6 @@
 package com.tecst.tecst.domain.answer.mapper;
 
 import com.tecst.tecst.domain.answer.dto.request.SaveAnswerRequestDto;
-import com.tecst.tecst.domain.answer.dto.request.SaveVoiceAnswerRequestDto;
 import com.tecst.tecst.domain.answer.dto.response.GetAnswerResponseDto;
 import com.tecst.tecst.domain.answer.entity.Answer;
 import com.tecst.tecst.domain.question.entity.Question;
@@ -11,8 +10,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class AnswerMapper {
     public Answer toEntity(SaveAnswerRequestDto dto, User user, Question commonQuestion) {
-        Answer answer = Answer.builder().answer(dto.getAnswer()).type(dto.getType())
-                .user(user).question(commonQuestion).build();
+        Answer answer = Answer.builder()
+                .answer(dto.getAnswer())
+                .type(dto.getType())
+                .user(user)
+                .question(commonQuestion)
+                .build();
         return answer;
     }
 
@@ -23,16 +26,17 @@ public class AnswerMapper {
                 .commonQuestionsId(answer.getQuestion().getQuestionId())
                 .answer(answer.getAnswer())
                 .answerId(answer.getAnswerId())
-                .answerURL(answer.getAnswerURL()).build();
+                .answerURL(answer.getAnswerURL())
+                .build();
     }
 
-    public Answer UploadsToEntity(SaveVoiceAnswerRequestDto dto, User user, Question commonQuestion, String answerURL, String result) {
-        Answer voiceAnswer = Answer.builder()
-                .answer(result)
-                .answerURL(answerURL)
-                .type(dto.getType())
-                .user(user)
-                .question(commonQuestion).build();
-        return voiceAnswer;
+    public Answer voiceAnswerToEntity(SaveAnswerRequestDto dto, User user, Question commonQuestion, String result) {
+         return Answer.builder()
+                 .answer(result)
+                 .answerURL(dto.getAnswer())
+                 .type(dto.getType())
+                 .user(user)
+                 .question(commonQuestion)
+                 .build();
     }
 }

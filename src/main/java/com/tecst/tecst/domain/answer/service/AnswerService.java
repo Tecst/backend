@@ -7,6 +7,7 @@ import com.tecst.tecst.domain.answer.dto.request.SaveAnswerRequestDto;
 import com.tecst.tecst.domain.answer.dto.request.SaveVoiceAnswerRequestDto;
 import com.tecst.tecst.domain.answer.dto.response.GetAnswerResponseDto;
 import com.tecst.tecst.domain.answer.dto.response.GetVoiceAnswerResponseDto;
+import com.tecst.tecst.domain.answer.dto.response.GetVoiceAnswerURL;
 import com.tecst.tecst.domain.answer.entity.Answer;
 import com.tecst.tecst.domain.answer.exception.AnswerNotFound;
 import com.tecst.tecst.domain.answer.mapper.AnswerMapper;
@@ -35,7 +36,6 @@ public class AnswerService {
     private final QuestionRepository commonQuestionRepository;
     private final UserRepository userRepository;
     private final AnswerMapper answerMapper;
-    private final ClovaSpeechClient clovaSpeechClient;
     private final AmazonS3 amazonS3;
 
     @Value("${cloud.aws.s3.bucket}")
@@ -64,9 +64,9 @@ public class AnswerService {
         return answerMapper.toDto(answer);
     }
 
-    public GetAnswerResponseDto saveVoiceAnswer(SaveVoiceAnswerRequestDto dto) throws IOException {
-        Question commonQuestion = commonQuestionRepository.findById(dto.getCommonQuestionsId()).orElseThrow(QuestionNotFound::new);
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(UserNotFound::new);
+    public GetVoiceAnswerURL uploadToS3(SaveVoiceAnswerRequestDto dto) throws IOException {
+        commonQuestionRepository.findById(dto.getCommonQuestionsId()).orElseThrow(QuestionNotFound::new);
+        userRepository.findById(dto.getUserId()).orElseThrow(UserNotFound::new);
 
         Long userId = dto.getUserId();
         Long commonQuestionsId = dto.getCommonQuestionsId();
@@ -89,16 +89,29 @@ public class AnswerService {
 
         dto.getMultipartFile().getInputStream().close();
 
-        final String answerURL = amazonS3.getUrl(bucket, s3FileName).toString();
+        String answerURL = amazonS3.getUrl(bucket, s3FileName).toString();
 
-        //STT 실행
+        GetVoiceAnswerURL resDto = new GetVoiceAnswerURL();
+        resDto.setS3FileName(s3FileName);
+        resDto.setAnswerURL(answerURL);
+        return resDto;
+    }
+
+    public GetAnswerResponseDto saveVoiceAnswer(SaveAnswerRequestDto dto) {
+        Question commonQuestion = commonQuestionRepository.findById(dto.getCommonQuestionsId()).orElseThrow(QuestionNotFound::new);
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(UserNotFound::new);
+
+        final ClovaSpeechClient clovaSpeechClient = new ClovaSpeechClient();
         ClovaSpeechClient.NestRequestEntity requestEntity = new ClovaSpeechClient.NestRequestEntity();
-        final String result = clovaSpeechClient.objectStorage(s3FileName, requestEntity);
+        final String result = clovaSpeechClient.objectStorage(dto.getAnswer(), requestEntity);
+
+        dto.setAnswer("https://interview-record.kr.object.ncloudstorage.com/" + dto.getAnswer());
 
         // DB에 저장
-        Answer answer = answerMapper.UploadsToEntity(dto, user, commonQuestion, answerURL, result);
+        Answer answer = answerMapper.voiceAnswerToEntity(dto, user, commonQuestion, result);
         answerRepository.save(answer);
 
         return answerMapper.toDto(answer);
     }
 }
+

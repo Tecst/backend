@@ -4,6 +4,7 @@ import com.tecst.tecst.domain.answer.dto.request.SaveAnswerRequestDto;
 import com.tecst.tecst.domain.answer.dto.request.SaveVoiceAnswerRequestDto;
 import com.tecst.tecst.domain.answer.dto.response.GetAnswerResponseDto;
 import com.tecst.tecst.domain.answer.dto.response.GetVoiceAnswerResponseDto;
+import com.tecst.tecst.domain.answer.dto.response.GetVoiceAnswerURL;
 import com.tecst.tecst.domain.answer.service.AnswerService;
 import com.tecst.tecst.global.result.ResultResponse;
 import io.swagger.annotations.Api;
@@ -33,9 +34,15 @@ public class AnswerController {
         return ResponseEntity.ok(ResultResponse.of(REGISTER_ANSWER_SUCCESS, responseDto));
     }
 
-   @ApiOperation(value = "음성 답변 업로드 후 STT 실행 및 저장")
-    @PostMapping(value="/voice-answers/new", consumes = {"multipart/form-data"})
-    public ResponseEntity<ResultResponse> SaveVoiceAnswer(@ModelAttribute SaveVoiceAnswerRequestDto dto) throws IOException {
+    @ApiOperation(value = "음성 답변 S3에 업로드")
+    @PostMapping(value="/voice-answers/upload/new", consumes = {"multipart/form-data"})
+    public GetVoiceAnswerURL UploadToS3(@ModelAttribute SaveVoiceAnswerRequestDto dto) throws IOException {
+         return answerService.uploadToS3(dto);
+    }
+
+    @ApiOperation(value = "STT 실행 후 음성 답변 저장")
+    @PostMapping("/voice-answers/new")
+    public ResponseEntity<ResultResponse> SaveVoiceAnswer(@RequestBody SaveAnswerRequestDto dto) {
         GetAnswerResponseDto responseDto = answerService.saveVoiceAnswer(dto);
         return ResponseEntity.ok(ResultResponse.of(REGISTER_ANSWER_SUCCESS, responseDto));
     }
