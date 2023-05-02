@@ -1,16 +1,11 @@
 package com.tecst.tecst.domain.bookmark.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 
 @Getter
-@Setter
 @AllArgsConstructor
-@Builder
+@NoArgsConstructor
 public class RegistBookmarkRequestDto {
     private Long questionId;
-    private Long userId;
 }

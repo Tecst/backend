@@ -26,7 +26,7 @@ public class AnswerController {
     private final AnswerService answerService;
 
     @ApiOperation(value = "텍스트 답변 저장")
-    @PostMapping("/new")
+    @PostMapping
     // 답변 저장
     public ResponseEntity<ResultResponse> SaveAnswer(@RequestBody SaveAnswerRequestDto dto) {
         GetAnswerResponseDto responseDto = answerService.saveAnswer(dto);
@@ -34,7 +34,7 @@ public class AnswerController {
     }
 
    @ApiOperation(value = "음성 답변 업로드 후 STT 실행 및 저장")
-    @PostMapping(value="/voice-answers/new", consumes = {"multipart/form-data"})
+    @PostMapping(value="/voice-answers", consumes = {"multipart/form-data"})
     public ResponseEntity<ResultResponse> SaveVoiceAnswer(@ModelAttribute SaveVoiceAnswerRequestDto dto) throws IOException {
         GetAnswerResponseDto responseDto = answerService.saveVoiceAnswer(dto);
         return ResponseEntity.ok(ResultResponse.of(REGISTER_ANSWER_SUCCESS, responseDto));
