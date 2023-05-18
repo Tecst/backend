@@ -10,10 +10,10 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @Builder
-public class DeleteBookmarkResponseDto {
+public class BookmarkDeleteResoponse {
     private Long bookmark_id;
     private Long common_questions_id;
     private Long user_id;
 
-    public DeleteBookmarkResponseDto() {}
+    public BookmarkDeleteResoponse() {}
 }
