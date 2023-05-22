@@ -6,11 +6,11 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class GetBookmarkResponseDto {
+public class BookmarkGetResponse {
     private Long userId;
     private List<BookmarkResponseDto> bookmarksList;
 
-    public GetBookmarkResponseDto (Long userId, List<BookmarkResponseDto> bookmarksList) {
+    public BookmarkGetResponse(Long userId, List<BookmarkResponseDto> bookmarksList) {
         this.userId = userId;
         this.bookmarksList = bookmarksList;
     }
