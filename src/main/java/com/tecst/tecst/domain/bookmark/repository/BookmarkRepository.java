@@ -15,12 +15,12 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 
     Bookmark findByUser_UserIdAndQuestion_QuestionId(Long userId, Long questionId);
 
-    @Query(value = "select b.bookmark_id, cq.*, a.answer, a.answerURL, a.type as answerType from bookmark b" +
-            " INNER JOIN question cq ON b.question_id = cq.question_id" +
-            " INNER JOIN (" +
-            " SELECT question_id, answer, answerURL, type FROM answer " +
-            " WHERE user_id = :userId) a " +
-            " ON b.question_id = a.question_id" +
-            " WHERE b.user_id = :userId", nativeQuery = true)
-    List<BookmarkResponseDto> findBookmarksByUser(@Param("userId") Long userId);
+//    @Query(value = "select b.bookmark_id, cq.*, a.answer, a.answerURL, a.type as answerType from bookmark b" +
+//            " INNER JOIN question cq ON b.question_id = cq.question_id" +
+//            " INNER JOIN (" +
+//            " SELECT question_id, answer, answerURL, type FROM answer " +
+//            " WHERE user_id = :userId) a " +
+//            " ON b.question_id = a.question_id" +
+//            " WHERE b.user_id = :userId", nativeQuery = true)
+    List<Bookmark> findByUserUserId(Long user_id);
 }

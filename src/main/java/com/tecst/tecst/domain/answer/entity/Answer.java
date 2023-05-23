@@ -21,13 +21,13 @@ public class Answer {
     private Long answerId;
 
     @Column(name = "Type", length = 20)
-    private String type;
+    private String type; // 텍스트 or 음성
 
     @Column(name = "answer", length = 100)
-    private String answer;
+    private String answer; // STT 결과
 
     @Column(name = "answer_url", length = 100)
-    private String answerURL;
+    private String answerURL; // URL
 
     @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "question_id")
@@ -37,4 +37,5 @@ public class Answer {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private String feedBack; // GPT 평가
 }
