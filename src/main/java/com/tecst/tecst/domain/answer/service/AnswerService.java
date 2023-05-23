@@ -4,8 +4,10 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
 import com.tecst.tecst.domain.answer.ClovaSpeechClient;
 import com.tecst.tecst.domain.answer.dto.request.SaveAnswerRequestDto;
+import com.tecst.tecst.domain.answer.dto.request.SaveScoreRequestDto;
 import com.tecst.tecst.domain.answer.dto.request.SaveVoiceAnswerRequestDto;
 import com.tecst.tecst.domain.answer.dto.response.GetAnswerResponseDto;
+import com.tecst.tecst.domain.answer.dto.response.GetScoreResponseDto;
 import com.tecst.tecst.domain.answer.dto.response.GetVoiceAnswerResponseDto;
 import com.tecst.tecst.domain.answer.entity.Answer;
 import com.tecst.tecst.domain.answer.exception.AnswerNotFound;
@@ -49,6 +51,20 @@ public class AnswerService {
         Answer answer = answerMapper.toEntity(dto, user, commonQuestion);
         answerRepository.save(answer);
         return answerMapper.toDto(answer);
+    }
+
+    public GetScoreResponseDto saveScore(SaveScoreRequestDto dto) {
+        String[] feedback = dto.getFeedBack().split(":|/|\\n");
+        int sc=0;
+        for(int i=0; i< feedback.length; i++){
+            if(feedback[i].equals("점수")) {
+                sc = Integer.parseInt(feedback[i + 1]);
+                break;
+            }
+        }
+        Answer answer = answerRepository.findById(dto.getAnswerId()).orElseThrow(AnswerNotFound::new);
+        answer.update(sc);
+        return GetScoreResponseDto.from(answer);
     }
 
     public GetVoiceAnswerResponseDto GetInterviewRecord(Long id) {

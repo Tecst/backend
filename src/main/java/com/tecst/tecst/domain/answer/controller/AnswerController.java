@@ -1,8 +1,10 @@
 package com.tecst.tecst.domain.answer.controller;
 
 import com.tecst.tecst.domain.answer.dto.request.SaveAnswerRequestDto;
+import com.tecst.tecst.domain.answer.dto.request.SaveScoreRequestDto;
 import com.tecst.tecst.domain.answer.dto.request.SaveVoiceAnswerRequestDto;
 import com.tecst.tecst.domain.answer.dto.response.GetAnswerResponseDto;
+import com.tecst.tecst.domain.answer.dto.response.GetScoreResponseDto;
 import com.tecst.tecst.domain.answer.dto.response.GetVoiceAnswerResponseDto;
 import com.tecst.tecst.domain.answer.service.AnswerService;
 import com.tecst.tecst.global.result.ResultResponse;
@@ -17,6 +19,7 @@ import java.io.IOException;
 
 import static com.tecst.tecst.global.result.ResultCode.ANSWER_FIND_SUCCESS;
 import static com.tecst.tecst.global.result.ResultCode.REGISTER_ANSWER_SUCCESS;
+import static com.tecst.tecst.global.result.ResultCode.SCORE_REGISTRATION_SUCCESS;
 
 @Api(tags = "Answer API")
 @RestController
@@ -51,6 +54,13 @@ public class AnswerController {
     public ResponseEntity<ResultResponse> getAnswer(@PathVariable Long answersId) {
         GetAnswerResponseDto dto = answerService.getAnswer(answersId);
         return ResponseEntity.ok(ResultResponse.of(ANSWER_FIND_SUCCESS, dto));
+    }
+
+    @ApiOperation(value = "점수 저장")
+    @PostMapping("/scores")
+    public ResponseEntity<ResultResponse> SaveScore(@RequestBody SaveScoreRequestDto dto) {
+        GetScoreResponseDto responseDto = answerService.saveScore(dto);
+        return ResponseEntity.ok(ResultResponse.of(SCORE_REGISTRATION_SUCCESS, responseDto));
     }
 
 }
