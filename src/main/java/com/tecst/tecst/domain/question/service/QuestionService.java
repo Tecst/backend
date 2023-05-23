@@ -1,26 +1,19 @@
 package com.tecst.tecst.domain.question.service;
 
-import com.tecst.tecst.domain.auth.service.CustomUserDetailsService;
 import com.tecst.tecst.domain.question.dto.request.CreateQuestionRequest;
 import com.tecst.tecst.domain.question.dto.request.UpdateQuestionRequest;
 import com.tecst.tecst.domain.question.dto.response.*;
 import com.tecst.tecst.domain.question.entity.Question;
-import com.tecst.tecst.domain.user.entity.User;
-import com.tecst.tecst.domain.user.repository.UserRepository;
+import com.tecst.tecst.domain.user.service.UserService;
 import com.tecst.tecst.global.util.Type;
 import com.tecst.tecst.domain.question.exception.QuestionNotFound;
 import com.tecst.tecst.domain.question.exception.QuestionTypeNotFound;
 import com.tecst.tecst.domain.question.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,8 +23,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class QuestionService {
     private final QuestionRepository questionRepository;
-    private final CustomUserDetailsService userService;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     // TODO 기본 유저 정보 property source 설정
     // DB 테이블에 질문 및 기본 유저 저장

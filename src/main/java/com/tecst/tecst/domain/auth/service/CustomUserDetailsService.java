@@ -32,11 +32,4 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .roles(user.getRole())
                 .build();
     }
-
-    public com.tecst.tecst.domain.user.entity.User getLoginUser(){
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails) principal).getUsername();
-        com.tecst.tecst.domain.user.entity.User user = userRepository.findByEmail(username).get();
-        return user;
-    }
 }
