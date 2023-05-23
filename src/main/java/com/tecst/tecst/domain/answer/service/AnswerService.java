@@ -70,7 +70,7 @@ public class AnswerService {
 
     public GetAnswerResponseDto saveVoiceAnswer(SaveVoiceAnswerRequestDto dto) throws IOException {
         Question commonQuestion = commonQuestionRepository.findById(dto.getCommonQuestionsId()).orElseThrow(QuestionNotFound::new);
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(UserNotFound::new);
+        User user = userService.getLoginUser();
 
         Long userId = dto.getUserId();
         Long commonQuestionsId = dto.getCommonQuestionsId();
