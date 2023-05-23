@@ -11,8 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class SaveAnswerRequestDto {
-    private Long userId;
-    private Long commonQuestionsId;
+    private Long questionsId;
     private String type;
     private String answer;
 }

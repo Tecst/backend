@@ -11,12 +11,14 @@ import com.tecst.tecst.domain.answer.entity.Answer;
 import com.tecst.tecst.domain.answer.exception.AnswerNotFound;
 import com.tecst.tecst.domain.answer.mapper.AnswerMapper;
 import com.tecst.tecst.domain.answer.repository.AnswerRepository;
+import com.tecst.tecst.domain.auth.service.CustomUserDetailsService;
 import com.tecst.tecst.domain.question.entity.Question;
 import com.tecst.tecst.domain.question.exception.QuestionNotFound;
 import com.tecst.tecst.domain.question.repository.QuestionRepository;
 import com.tecst.tecst.domain.user.entity.User;
 import com.tecst.tecst.domain.user.exception.UserNotFound;
 import com.tecst.tecst.domain.user.repository.UserRepository;
+import com.tecst.tecst.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +36,7 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     private final QuestionRepository commonQuestionRepository;
     private final UserRepository userRepository;
+    private final CustomUserDetailsService userService;
     private final AnswerMapper answerMapper;
     private final ClovaSpeechClient clovaSpeechClient;
     private final AmazonS3 amazonS3;
@@ -43,8 +46,9 @@ public class AnswerService {
 
 
     public GetAnswerResponseDto saveAnswer(SaveAnswerRequestDto dto) {
-        Question commonQuestion = commonQuestionRepository.findById(dto.getCommonQuestionsId()).orElseThrow(QuestionNotFound::new);
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(UserNotFound::new);
+        Question commonQuestion = commonQuestionRepository.findById(dto.getQuestionsId()).orElseThrow(QuestionNotFound::new);
+        Long userId = userService.getLoginUser().getUserId();
+        User user = userRepository.findById(userId).orElseThrow(UserNotFound::new);
 
         Answer answer = answerMapper.toEntity(dto, user, commonQuestion);
         answerRepository.save(answer);
