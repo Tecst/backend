@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BookmarkResponseDto {
     private Long questionId;
+    private Long bookmarkId;
     private String content;
     private String response;
     private Type type;
@@ -20,11 +21,12 @@ public class BookmarkResponseDto {
 
 
 
-    public static BookmarkResponseDto toBookmarkResponseDto(Question question) {
+    public static BookmarkResponseDto toBookmarkResponseDto(Bookmark bookmark) {
         return new BookmarkResponseDto(
-                question.getQuestionId(),
-                question.getContent(),
-                question.getResponse(),
-                question.getType());
+                bookmark.getQuestion().getQuestionId(),
+                bookmark.getBookmarkId(),
+                bookmark.getQuestion().getContent(),
+                bookmark.getQuestion().getResponse(),
+                bookmark.getQuestion().getType());
     }
 }

@@ -11,6 +11,7 @@ import com.tecst.tecst.domain.answer.entity.Answer;
 import com.tecst.tecst.domain.answer.exception.AnswerNotFound;
 import com.tecst.tecst.domain.answer.mapper.AnswerMapper;
 import com.tecst.tecst.domain.answer.repository.AnswerRepository;
+import com.tecst.tecst.domain.auth.service.CustomUserDetailsService;
 import com.tecst.tecst.domain.question.entity.Question;
 import com.tecst.tecst.domain.question.exception.QuestionNotFound;
 import com.tecst.tecst.domain.question.repository.QuestionRepository;
@@ -34,7 +35,10 @@ import java.util.Objects;
 public class AnswerService {
     private final AnswerRepository answerRepository;
     private final QuestionRepository commonQuestionRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
+    private final CustomUserDetailsService userService;
+
+    private final UserService userService2;
     private final AnswerMapper answerMapper;
     private final ClovaSpeechClient clovaSpeechClient;
     private final AmazonS3 amazonS3;
@@ -45,7 +49,8 @@ public class AnswerService {
 
     public GetAnswerResponseDto saveAnswer(SaveAnswerRequestDto dto) {
         Question commonQuestion = commonQuestionRepository.findById(dto.getQuestionsId()).orElseThrow(QuestionNotFound::new);
-        User user = userService.getLoginUser();
+        Long userId = userService2.getLoginUser().getUserId();
+        User user = userRepository.findById(userId).orElseThrow(UserNotFound::new);
 
         Answer answer = answerMapper.toEntity(dto, user, commonQuestion);
         answerRepository.save(answer);
@@ -67,7 +72,7 @@ public class AnswerService {
 
     public GetAnswerResponseDto saveVoiceAnswer(SaveVoiceAnswerRequestDto dto) throws IOException {
         Question commonQuestion = commonQuestionRepository.findById(dto.getCommonQuestionsId()).orElseThrow(QuestionNotFound::new);
-        User user = userService.getLoginUser();
+        User user = userService2.getLoginUser();
 
         Long userId = dto.getUserId();
         Long commonQuestionsId = dto.getCommonQuestionsId();

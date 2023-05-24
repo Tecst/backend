@@ -1,13 +1,11 @@
 package com.tecst.tecst.domain.bookmark.controller;
 
 import com.tecst.tecst.domain.bookmark.dto.request.RegistBookmarkRequestDto;
+import com.tecst.tecst.domain.bookmark.dto.response.BookmarkCreateResponse;
 import com.tecst.tecst.domain.bookmark.dto.response.BookmarkResponseDto;
-import com.tecst.tecst.domain.bookmark.dto.response.DeleteBookmarkResponseDto;
-import com.tecst.tecst.domain.bookmark.dto.response.GetBookmarkResponseDto;
+import com.tecst.tecst.domain.bookmark.dto.response.BookmarkDeleteResoponse;
 import com.tecst.tecst.domain.bookmark.service.BookmarkService;
-import com.tecst.tecst.domain.question.entity.Question;
 import com.tecst.tecst.domain.question.service.QuestionService;
-import com.tecst.tecst.domain.user.service.UserService;
 import com.tecst.tecst.global.result.ResultResponse;
 
 import io.swagger.annotations.Api;
@@ -31,18 +29,17 @@ import static com.tecst.tecst.global.result.ResultCode.BOOKMARK_REGISTRATION_SUC
 @RequestMapping("/api/v1/bookmark")
 public class BookmarkController {
     private final BookmarkService bookmarkService;
-    private final QuestionService questionService;
 
     @ApiOperation(value = "북마크 등록")
     @PostMapping
     public ResponseEntity<ResultResponse> registBookmark(@RequestBody RegistBookmarkRequestDto dto) {
-        bookmarkService.register(dto);
-        return ResponseEntity.ok(ResultResponse.of(BOOKMARK_REGISTRATION_SUCCESS, dto));
+        BookmarkCreateResponse result = bookmarkService.register(dto);
+        return ResponseEntity.ok(ResultResponse.of(BOOKMARK_REGISTRATION_SUCCESS, result));
     }
 
     @ApiOperation(value = "북마크에서 선택한 질문 삭제")
     @DeleteMapping("/{id}")
-    public DeleteBookmarkResponseDto DeleteBookmark(@PathVariable Long id) {
+    public BookmarkDeleteResoponse DeleteBookmark(@PathVariable Long id) {
         return bookmarkService.DeleteBookmark(id);
     }
 
