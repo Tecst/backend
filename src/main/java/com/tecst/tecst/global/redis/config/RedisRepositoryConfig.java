@@ -1,4 +1,4 @@
-package com.tecst.tecst.domain.redis.config;
+package com.tecst.tecst.global.redis.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
