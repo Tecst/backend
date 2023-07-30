@@ -4,6 +4,9 @@ import com.tecst.tecst.domain.question.dto.request.CreateQuestionRequest;
 import com.tecst.tecst.domain.question.dto.request.UpdateQuestionRequest;
 import com.tecst.tecst.domain.question.dto.response.*;
 import com.tecst.tecst.domain.question.entity.Question;
+import com.tecst.tecst.domain.question.repository.QuestionCustomRepositoryImpl;
+import com.tecst.tecst.domain.user.entity.User;
+import com.tecst.tecst.domain.user.repository.UserRepository;
 import com.tecst.tecst.domain.user.service.UserService;
 import com.tecst.tecst.global.util.Type;
 import com.tecst.tecst.domain.question.exception.QuestionNotFound;
@@ -11,9 +14,14 @@ import com.tecst.tecst.domain.question.exception.QuestionTypeNotFound;
 import com.tecst.tecst.domain.question.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,10 +31,10 @@ import java.util.stream.Collectors;
 @Transactional
 public class QuestionService {
     private final QuestionRepository questionRepository;
+    private final QuestionCustomRepositoryImpl questionCustomRepository;
     private final UserService userService;
 
     // TODO 리펙토링 필요
-    @Transactional
     public CreateQuestionResponse createQuestion(CreateQuestionRequest dto) {
         Question question = dto.toEntity(userService.getLoginUser());
         Question savedQuestion = questionRepository.save(question);
@@ -41,8 +49,8 @@ public class QuestionService {
         }
 
         List<Question> result;
-        if (type.name().equals("all")) result = questionRepository.findQuestions(count);
-        else result = questionRepository.findQuestionsByType(type, count);
+        if (type.name().equals("all")) result = questionCustomRepository.findQuestions(count);
+        else result = questionCustomRepository.findQuestionsByType(type, count);
         return new GetQuestionResponse(result.stream()
                 .map(QuestionDTO::listQuestionMapping)
                 .collect(Collectors.toList()));
@@ -55,7 +63,6 @@ public class QuestionService {
                 .collect(Collectors.toList()));
     }
 
-    @Transactional
     public UpdateQuestionResponse updateQuestion(Long id, UpdateQuestionRequest dto) {
         Question target = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
         target.update(dto.getContent(), dto.getResponse(), dto.getType());

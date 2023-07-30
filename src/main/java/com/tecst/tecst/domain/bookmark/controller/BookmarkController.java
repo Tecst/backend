@@ -1,11 +1,11 @@
 package com.tecst.tecst.domain.bookmark.controller;
 
 import com.tecst.tecst.domain.bookmark.dto.request.RegistBookmarkRequestDto;
-import com.tecst.tecst.domain.bookmark.dto.response.DeleteBookmarkResponseDto;
-import com.tecst.tecst.domain.bookmark.dto.response.GetBookmarkResponseDto;
+import com.tecst.tecst.domain.bookmark.dto.response.BookmarkCreateResponse;
+import com.tecst.tecst.domain.bookmark.dto.response.BookmarkResponseDto;
+import com.tecst.tecst.domain.bookmark.dto.response.BookmarkDeleteResoponse;
 import com.tecst.tecst.domain.bookmark.service.BookmarkService;
 import com.tecst.tecst.domain.question.service.QuestionService;
-import com.tecst.tecst.domain.user.service.UserService;
 import com.tecst.tecst.global.result.ResultResponse;
 
 import io.swagger.annotations.Api;
@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.tecst.tecst.global.result.ResultCode.BOOKMARK_REGISTRATION_SUCCESS;
 
 @Api(tags = "Bookmark API")
@@ -24,30 +26,26 @@ import static com.tecst.tecst.global.result.ResultCode.BOOKMARK_REGISTRATION_SUC
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 
 
-@RequestMapping("/api/v1/interview/bookmarks")
+@RequestMapping("/api/v1/bookmark")
 public class BookmarkController {
     private final BookmarkService bookmarkService;
-    private final QuestionService questionService;
-    private final UserService userService;
 
     @ApiOperation(value = "북마크 등록")
-    @PostMapping("/new")
-    public ResponseEntity<ResultResponse> registBookmark(RegistBookmarkRequestDto dto) {
-        questionService.findQuestionById(dto.getQuestionId());
-        userService.findUserById(dto.getUserId());
-        bookmarkService.register(dto);
-        return ResponseEntity.ok(ResultResponse.of(BOOKMARK_REGISTRATION_SUCCESS, dto));
+    @PostMapping
+    public ResponseEntity<ResultResponse> registBookmark(@RequestBody RegistBookmarkRequestDto dto) {
+        BookmarkCreateResponse result = bookmarkService.register(dto);
+        return ResponseEntity.ok(ResultResponse.of(BOOKMARK_REGISTRATION_SUCCESS, result));
     }
 
     @ApiOperation(value = "북마크에서 선택한 질문 삭제")
     @DeleteMapping("/{id}")
-    public DeleteBookmarkResponseDto DeleteBookmark(@PathVariable Long id) {
+    public BookmarkDeleteResoponse DeleteBookmark(@PathVariable Long id) {
         return bookmarkService.DeleteBookmark(id);
     }
 
+    @GetMapping
     @ApiOperation(value = "특정 사용자의 모든 북마크 조회")
-    @GetMapping("/{userId}")
-    public GetBookmarkResponseDto GetBookmark(@PathVariable Long userId) {
-        return bookmarkService.GetBookmarks(userId);
+    public List<BookmarkResponseDto> GetBookmark() {
+        return bookmarkService.GetBookmarks();
     }
 }
