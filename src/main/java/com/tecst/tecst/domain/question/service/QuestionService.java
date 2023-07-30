@@ -15,6 +15,7 @@ import com.tecst.tecst.domain.question.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -56,8 +57,8 @@ public class QuestionService {
                 .collect(Collectors.toList()));
     }
 
-    public GetQuestionResponse getPersonalQuestion() {
-        List<Question> questionList = questionRepository.findAllByUser(userService.getLoginUser());
+    public GetQuestionResponse getPersonalQuestion(Pageable pageable) {
+        List<Question> questionList = questionRepository.findAllByUser(userService.getLoginUser(), pageable);
         return new GetQuestionResponse(questionList.stream()
                 .map(QuestionDTO::listQuestionMapping)
                 .collect(Collectors.toList()));
