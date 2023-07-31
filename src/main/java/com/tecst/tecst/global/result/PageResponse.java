@@ -1,6 +1,6 @@
 package com.tecst.tecst.global.result;
 
-import com.tecst.tecst.domain.question.dto.response.QuestionDTO;
+import com.tecst.tecst.domain.question.service.dto.QuestionDTO;
 import com.tecst.tecst.domain.question.entity.Question;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +28,7 @@ public class PageResponse {
 
         return PageResponse.builder()
                 .content(question.getContent().stream()
-                        .map(QuestionDTO::listQuestionMapping)
+                        .map(QuestionDTO::QuestionMapping)
                         .collect(Collectors.toList()))
                 .pageSize(question.getSize())
                 .pageNo(question.getNumber())

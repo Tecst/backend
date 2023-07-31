@@ -9,9 +9,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @Builder
-public class GetCommonQuestionsSolution {
+public class GetQuestionSolutionResponse {
     private Long questionId;
     private String response;
-
-    public GetCommonQuestionsSolution() {}
 }

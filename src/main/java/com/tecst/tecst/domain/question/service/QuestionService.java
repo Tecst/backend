@@ -5,6 +5,8 @@ import com.tecst.tecst.domain.question.dto.request.UpdateQuestionRequest;
 import com.tecst.tecst.domain.question.dto.response.*;
 import com.tecst.tecst.domain.question.entity.Question;
 import com.tecst.tecst.domain.question.repository.QuestionCustomRepositoryImpl;
+import com.tecst.tecst.domain.question.service.dto.QuestionDTO;
+import com.tecst.tecst.domain.question.service.dto.QuestionResponseDTO;
 import com.tecst.tecst.domain.user.service.UserService;
 import com.tecst.tecst.global.result.PageResponse;
 import com.tecst.tecst.global.util.Type;
@@ -37,7 +39,7 @@ public class QuestionService {
         return CreateQuestionResponse.from(savedQuestion);
     }
 
-    public GetQuestionResponse getCommonQuestion(Type type, int count) {
+    public GetQuestionsResponse getCommonQuestion(Type type, int count) {
         try {
             Type.valueOf(String.valueOf(type));
         } catch (IllegalArgumentException e) {
@@ -47,8 +49,8 @@ public class QuestionService {
         List<Question> result;
         if (type.name().equals("all")) result = questionCustomRepository.findQuestions(count);
         else result = questionCustomRepository.findQuestionsByType(type, count);
-        return new GetQuestionResponse(result.stream()
-                .map(QuestionDTO::listQuestionMapping)
+        return new GetQuestionsResponse(result.stream()
+                .map(QuestionDTO::QuestionMapping)
                 .collect(Collectors.toList()));
     }
 
@@ -63,26 +65,25 @@ public class QuestionService {
     }
 
     public UpdateQuestionResponse updateQuestion(Long id, UpdateQuestionRequest dto) {
-        Question target = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
-        target.update(dto.getContent(), dto.getResponse(), dto.getType());
-        return UpdateQuestionResponse.from(target);
+        Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
+        question.update(dto);
+        questionRepository.save(question);
+        return UpdateQuestionResponse.from(question);
     }
 
     public void deleteQuestion(Long id) {
-        Question target = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
-        questionRepository.delete(target);
+        Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
+        questionRepository.delete(question);
     }
 
 
-    public Question findQuestionById(Long id) {
-        return questionRepository.findByQuestionId(id).orElseThrow(QuestionNotFound::new);
+    public QuestionDTO findQuestionById(Long id) {
+        Question question = questionRepository.findByQuestionId(id).orElseThrow(QuestionNotFound::new);
+        return QuestionDTO.QuestionMapping(question);
     }
 
-    public GetCommonQuestionsSolution getSolution(Long id) {
-        com.tecst.tecst.domain.question.entity.Question result = questionRepository.findByQuestionId(id).orElseThrow(QuestionNotFound::new);
-        GetCommonQuestionsSolution dto = new GetCommonQuestionsSolution();
-        dto.setQuestionId(id);
-        dto.setResponse(result.getResponse());
-        return dto;
+    public QuestionResponseDTO getSolution(Long id) {
+        Question question = questionRepository.findByQuestionId(id).orElseThrow(QuestionNotFound::new);
+        return QuestionResponseDTO.QuestionResponseMapping(question);
     }
 }
