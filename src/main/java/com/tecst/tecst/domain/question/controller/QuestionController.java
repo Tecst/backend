@@ -31,9 +31,19 @@ public class QuestionController {
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_CREATE_SUCCESS, result));
     }
 
-    @ApiOperation(value = "개인별 질문 전체 제공")
-    @GetMapping
-    public ResponseEntity<ResultResponse> getPersonalQuestion(
+    @ApiOperation(value = "기본 제공 질문 전체 조회")
+    @GetMapping("/common")
+    public ResponseEntity<ResultResponse> getCommonQuestions(
+            @RequestParam @Validated Integer page,
+            @RequestParam @Validated Integer size
+    ) {
+        PageResponse result = questionService.getCommonQuestions(page, size);
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_GET_SUCCESS, result));
+    }
+
+    @ApiOperation(value = "개인 질문 전체 조회")
+    @GetMapping("/personal")
+    public ResponseEntity<ResultResponse> getPersonalQuestions(
             @RequestParam @Validated Integer page,
             @RequestParam @Validated Integer size
     ) {
@@ -41,9 +51,8 @@ public class QuestionController {
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_GET_SUCCESS, result));
     }
 
-    // TODO 권한별 작업
-    @ApiOperation(value = "기본 제공 질문 중 선택한 분야의 질문 제공")
-    @GetMapping("/common")
+    @ApiOperation(value = "기본 제공 질문 중 선택한 분야의 랜덤 질문 제공")
+    @GetMapping("/common/random")
     public GetQuestionResponse getCommonQuestion(@RequestParam Type type, @RequestParam int count) {
         return questionService.getCommonQuestion(type, count);
     }
@@ -56,7 +65,7 @@ public class QuestionController {
 
     @ApiOperation(value = "질문 id를 받아 해당 질문 해답 반환")
     @GetMapping("/solution/{id}")
-    public GetCommonQuestionsSolution GetCommonQuestionSolution(@PathVariable Long id) {
+    public GetCommonQuestionsSolution getCommonQuestionSolution(@PathVariable Long id) {
         return questionService.getSolution(id);
     }
 

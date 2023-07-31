@@ -1,6 +1,5 @@
 package com.tecst.tecst.global.result;
 
-import com.tecst.tecst.domain.question.dto.response.GetQuestionResponse;
 import com.tecst.tecst.domain.question.dto.response.QuestionDTO;
 import com.tecst.tecst.domain.question.entity.Question;
 import lombok.AllArgsConstructor;

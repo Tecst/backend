@@ -5,8 +5,6 @@ import com.tecst.tecst.domain.question.dto.request.UpdateQuestionRequest;
 import com.tecst.tecst.domain.question.dto.response.*;
 import com.tecst.tecst.domain.question.entity.Question;
 import com.tecst.tecst.domain.question.repository.QuestionCustomRepositoryImpl;
-import com.tecst.tecst.domain.user.entity.User;
-import com.tecst.tecst.domain.user.repository.UserRepository;
 import com.tecst.tecst.domain.user.service.UserService;
 import com.tecst.tecst.global.result.PageResponse;
 import com.tecst.tecst.global.util.Type;
@@ -15,17 +13,11 @@ import com.tecst.tecst.domain.question.exception.QuestionTypeNotFound;
 import com.tecst.tecst.domain.question.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,7 +52,12 @@ public class QuestionService {
                 .collect(Collectors.toList()));
     }
 
-    public PageResponse getPersonalQuestion(Integer page, Integer size) {
+    public PageResponse getCommonQuestions(Integer page, Integer size) {
+        Page<Question> questionList = questionRepository.findAllByUser_role("ADMIN", PageRequest.of(page, size));
+        return PageResponse.pageResponseMapping(questionList);
+    }
+
+    public PageResponse getPersonalQuestions(Integer page, Integer size) {
         Page<Question> questionList = questionRepository.findAllByUser(userService.getLoginUser(), PageRequest.of(page, size));
         return PageResponse.pageResponseMapping(questionList);
     }
