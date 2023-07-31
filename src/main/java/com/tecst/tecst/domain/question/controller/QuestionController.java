@@ -67,7 +67,7 @@ public class QuestionController {
     @ApiOperation(value = "질문 id를 받아 해당 질문 반환")
     @GetMapping("/{id}")
     public ResponseEntity<ResultResponse> getCommonQuestion(
-            @PathVariable Long id
+            @PathVariable @Validated Long id
     ) {
         QuestionDTO result = questionService.findQuestionById(id);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_GET_SUCCESS, result));
@@ -76,7 +76,7 @@ public class QuestionController {
     @ApiOperation(value = "질문 id를 받아 해당 질문 해답 반환")
     @GetMapping("/solution/{id}")
     public ResponseEntity<ResultResponse> getCommonQuestionSolution(
-            @PathVariable Long id
+            @PathVariable @Validated Long id
     ) {
         QuestionResponseDTO result = questionService.getSolution(id);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_GET_SUCCESS, result));
@@ -85,8 +85,8 @@ public class QuestionController {
     @ApiOperation(value = "개인별 질문 수정")
     @PutMapping("/{id}")
     public ResponseEntity<ResultResponse> updatePersonalQuestion(
-            @PathVariable Long id,
-            @RequestBody UpdateQuestionRequest dto
+            @PathVariable @Validated Long id,
+            @RequestBody @Validated UpdateQuestionRequest dto
     ) {
         UpdateQuestionResponse result = questionService.updateQuestion(id, dto);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_UPDATE_SUCCESS, result));
@@ -95,7 +95,7 @@ public class QuestionController {
     @ApiOperation(value = "질문 삭제")
     @DeleteMapping("/{id}")
     public ResponseEntity<ResultResponse> deletePersonalQuestion(
-            @PathVariable Long id
+            @PathVariable @Validated Long id
     ) {
         questionService.deleteQuestion(id);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_DELETE_SUCCESS));
