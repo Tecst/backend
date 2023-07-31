@@ -46,13 +46,9 @@ public class Question {
         this.response = response;
         this.content = content;
     }
-
-    public void update(String content,
-                       String response,
-                       Type type) {
-
-        this.content = content;
-        this.response = response;
-        this.type = type;
+    public void update(Question question) {
+        this.content = question.getContent();
+        this.response = question.getResponse();
+        this.type = question.getType();
     }
 }
