@@ -5,7 +5,6 @@ import com.tecst.tecst.domain.question.dto.request.UpdateQuestionRequest;
 import com.tecst.tecst.domain.question.dto.response.*;
 import com.tecst.tecst.domain.question.service.dto.QuestionDTO;
 import com.tecst.tecst.domain.question.service.dto.QuestionResponseDTO;
-import com.tecst.tecst.global.error.ValidType;
 import com.tecst.tecst.global.result.PageResponse;
 import com.tecst.tecst.global.result.ResultCode;
 import com.tecst.tecst.global.result.ResultResponse;
@@ -18,9 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 
 @Api(tags = "Question API")
 @RestController
