@@ -16,8 +16,6 @@ import static com.tecst.tecst.domain.user.entity.QUser.user;
 @RequiredArgsConstructor
 public class QuestionCustomRepositoryImpl implements QuestionCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
-
-
     @Override
     public List<Question> findQuestionsByType(Type type, int count) {
         return jpaQueryFactory

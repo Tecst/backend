@@ -11,7 +11,6 @@ import com.tecst.tecst.domain.user.service.UserService;
 import com.tecst.tecst.global.result.PageResponse;
 import com.tecst.tecst.global.util.Type;
 import com.tecst.tecst.domain.question.exception.QuestionNotFound;
-import com.tecst.tecst.domain.question.exception.QuestionTypeNotFound;
 import com.tecst.tecst.domain.question.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -31,24 +30,20 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final QuestionCustomRepositoryImpl questionCustomRepository;
     private final UserService userService;
-
-    // TODO 리펙토링 필요
     public CreateQuestionResponse createQuestion(CreateQuestionRequest dto) {
-        Question question = dto.toEntity(userService.getLoginUser());
-        Question savedQuestion = questionRepository.save(question);
-        return CreateQuestionResponse.from(savedQuestion);
+        return CreateQuestionResponse.from(
+                questionRepository.save(
+                        dto.toEntity(userService.getLoginUser())
+                )
+        );
     }
 
     public GetQuestionsResponse getCommonQuestion(Type type, int count) {
-        try {
-            Type.valueOf(String.valueOf(type));
-        } catch (IllegalArgumentException e) {
-            throw new QuestionTypeNotFound();
-        }
-
         List<Question> result;
-        if (type.name().equals("all")) result = questionCustomRepository.findQuestions(count);
-        else result = questionCustomRepository.findQuestionsByType(type, count);
+        if (type.name().equals("all"))
+            result = questionCustomRepository.findQuestions(count);
+        else
+            result = questionCustomRepository.findQuestionsByType(type, count);
         return new GetQuestionsResponse(result.stream()
                 .map(QuestionDTO::QuestionMapping)
                 .collect(Collectors.toList()));
@@ -75,7 +70,6 @@ public class QuestionService {
         Question question = questionRepository.findById(id).orElseThrow(QuestionNotFound::new);
         questionRepository.delete(question);
     }
-
 
     public QuestionDTO findQuestionById(Long id) {
         Question question = questionRepository.findByQuestionId(id).orElseThrow(QuestionNotFound::new);

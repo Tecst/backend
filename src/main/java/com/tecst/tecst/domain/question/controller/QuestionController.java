@@ -5,6 +5,7 @@ import com.tecst.tecst.domain.question.dto.request.UpdateQuestionRequest;
 import com.tecst.tecst.domain.question.dto.response.*;
 import com.tecst.tecst.domain.question.service.dto.QuestionDTO;
 import com.tecst.tecst.domain.question.service.dto.QuestionResponseDTO;
+import com.tecst.tecst.global.error.ValidType;
 import com.tecst.tecst.global.result.PageResponse;
 import com.tecst.tecst.global.result.ResultCode;
 import com.tecst.tecst.global.result.ResultResponse;
@@ -17,6 +18,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Api(tags = "Question API")
 @RestController
@@ -57,8 +61,8 @@ public class QuestionController {
     @ApiOperation(value = "기본 제공 질문 중 선택한 분야의 랜덤 질문 제공")
     @GetMapping("/common/random")
     public ResponseEntity<ResultResponse> getCommonQuestion(
-            @RequestParam Type type,
-            @RequestParam int count
+            @RequestParam @Validated Type type,
+            @RequestParam @Validated Integer count
     ) {
         GetQuestionsResponse result = questionService.getCommonQuestion(type, count);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_GET_SUCCESS, result));
