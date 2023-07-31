@@ -13,14 +13,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.inject.Inject;
 
 @Api(tags = "Question API")
 @RestController
@@ -29,9 +24,9 @@ import javax.inject.Inject;
 public class QuestionController {
     private final QuestionService questionService;
 
-    @ApiOperation(value = "개인 질문 생성")
+    @ApiOperation(value = "질문 등록")
     @PostMapping
-    public ResponseEntity<ResultResponse> createPersonalQuestion(@RequestBody CreateQuestionRequest dto) {
+    public ResponseEntity<ResultResponse> createPersonalQuestion(@RequestBody @Validated CreateQuestionRequest dto) {
         CreateQuestionResponse result = questionService.createQuestion(dto);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_CREATE_SUCCESS, result));
     }
@@ -39,9 +34,10 @@ public class QuestionController {
     @ApiOperation(value = "개인별 질문 전체 제공")
     @GetMapping
     public ResponseEntity<ResultResponse> getPersonalQuestion(
-            @RequestParam @Validated Integer page, Integer size
+            @RequestParam @Validated Integer page,
+            @RequestParam @Validated Integer size
     ) {
-        PageResponse result = questionService.getPersonalQuestion(page, size);
+        PageResponse result = questionService.getPersonalQuestions(page, size);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_GET_SUCCESS, result));
     }
 
