@@ -12,4 +12,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     Optional<Question> findByQuestionId(Long id);
 
     Page<Question> findAllByUser(User user, Pageable pageable);
+    Page<Question> findAllByUser_role(String role, Pageable pageable);
+
+
 }
