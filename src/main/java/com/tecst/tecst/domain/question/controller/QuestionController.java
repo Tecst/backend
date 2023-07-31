@@ -4,6 +4,7 @@ import com.tecst.tecst.domain.question.dto.request.CreateQuestionRequest;
 import com.tecst.tecst.domain.question.dto.request.UpdateQuestionRequest;
 import com.tecst.tecst.domain.question.dto.response.*;
 import com.tecst.tecst.domain.question.entity.Question;
+import com.tecst.tecst.global.result.PageResponse;
 import com.tecst.tecst.global.result.ResultCode;
 import com.tecst.tecst.global.result.ResultResponse;
 import com.tecst.tecst.global.util.Type;
@@ -12,8 +13,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.inject.Inject;
 
 @Api(tags = "Question API")
 @RestController
@@ -29,24 +36,25 @@ public class QuestionController {
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_CREATE_SUCCESS, result));
     }
 
-    // TODO 페이지네이션 적용
     @ApiOperation(value = "개인별 질문 전체 제공")
     @GetMapping
-    public ResponseEntity<ResultResponse> getPersonalQuestion() {
-        GetQuestionResponse result = questionService.getPersonalQuestion();
+    public ResponseEntity<ResultResponse> getPersonalQuestion(
+            @RequestParam @Validated Integer page, Integer size
+    ) {
+        PageResponse result = questionService.getPersonalQuestion(page, size);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_GET_SUCCESS, result));
     }
 
     // TODO 권한별 작업
     @ApiOperation(value = "기본 제공 질문 중 선택한 분야의 질문 제공")
     @GetMapping("/common")
-    public GetQuestionResponse GetCommonQuestion(@RequestParam Type type, @RequestParam int count) {
+    public GetQuestionResponse getCommonQuestion(@RequestParam Type type, @RequestParam int count) {
         return questionService.getCommonQuestion(type, count);
     }
 
     @ApiOperation(value = "질문 id를 받아 해당 질문 반환")
     @GetMapping("/{id}")
-    public Question GetCommonQuestion(@PathVariable Long id) {
+    public Question getCommonQuestion(@PathVariable Long id) {
         return questionService.findQuestionById(id);
     }
 

@@ -8,6 +8,7 @@ import com.tecst.tecst.domain.question.repository.QuestionCustomRepositoryImpl;
 import com.tecst.tecst.domain.user.entity.User;
 import com.tecst.tecst.domain.user.repository.UserRepository;
 import com.tecst.tecst.domain.user.service.UserService;
+import com.tecst.tecst.global.result.PageResponse;
 import com.tecst.tecst.global.util.Type;
 import com.tecst.tecst.domain.question.exception.QuestionNotFound;
 import com.tecst.tecst.domain.question.exception.QuestionTypeNotFound;
@@ -15,6 +16,8 @@ import com.tecst.tecst.domain.question.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -57,11 +60,9 @@ public class QuestionService {
                 .collect(Collectors.toList()));
     }
 
-    public GetQuestionResponse getPersonalQuestion(Pageable pageable) {
-        List<Question> questionList = questionRepository.findAllByUser(userService.getLoginUser(), pageable);
-        return new GetQuestionResponse(questionList.stream()
-                .map(QuestionDTO::listQuestionMapping)
-                .collect(Collectors.toList()));
+    public PageResponse getPersonalQuestion(Integer page, Integer size) {
+        Page<Question> questionList = questionRepository.findAllByUser(userService.getLoginUser(), PageRequest.of(page, size));
+        return PageResponse.pageResponseMapping(questionList);
     }
 
     public UpdateQuestionResponse updateQuestion(Long id, UpdateQuestionRequest dto) {
