@@ -1,4 +1,4 @@
-package com.tecst.tecst.global.result;
+package com.tecst.tecst.domain.question.dto.response;
 
 import com.tecst.tecst.domain.question.service.dto.QuestionDTO;
 import com.tecst.tecst.domain.question.entity.Question;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PageResponse {
+public class QuestionsPageResponse {
 
     private List<QuestionDTO> content;
     private int pageNo;
@@ -24,9 +24,9 @@ public class PageResponse {
     private int totalPages;
     private boolean last;
 
-    public static PageResponse pageResponseMapping(Page<Question> question){
+    public static QuestionsPageResponse pageResponseMapping(Page<Question> question){
 
-        return PageResponse.builder()
+        return QuestionsPageResponse.builder()
                 .content(question.getContent().stream()
                         .map(QuestionDTO::QuestionMapping)
                         .collect(Collectors.toList()))

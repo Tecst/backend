@@ -5,7 +5,7 @@ import com.tecst.tecst.domain.question.dto.request.UpdateQuestionRequest;
 import com.tecst.tecst.domain.question.dto.response.*;
 import com.tecst.tecst.domain.question.service.dto.QuestionDTO;
 import com.tecst.tecst.domain.question.service.dto.QuestionResponseDTO;
-import com.tecst.tecst.global.result.PageResponse;
+import com.tecst.tecst.domain.question.dto.response.QuestionsPageResponse;
 import com.tecst.tecst.global.result.ResultCode;
 import com.tecst.tecst.global.result.ResultResponse;
 import com.tecst.tecst.global.util.Type;
@@ -40,7 +40,7 @@ public class QuestionController {
             @RequestParam @Validated Integer page,
             @RequestParam @Validated Integer size
     ) {
-        PageResponse result = questionService.getCommonQuestions(page, size);
+        QuestionsPageResponse result = questionService.getCommonQuestions(page, size);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_GET_SUCCESS, result));
     }
 
@@ -50,7 +50,7 @@ public class QuestionController {
             @RequestParam @Validated Integer page,
             @RequestParam @Validated Integer size
     ) {
-        PageResponse result = questionService.getPersonalQuestions(page, size);
+        QuestionsPageResponse result = questionService.getPersonalQuestions(page, size);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_GET_SUCCESS, result));
     }
 

@@ -8,7 +8,7 @@ import com.tecst.tecst.domain.question.repository.QuestionCustomRepositoryImpl;
 import com.tecst.tecst.domain.question.service.dto.QuestionDTO;
 import com.tecst.tecst.domain.question.service.dto.QuestionResponseDTO;
 import com.tecst.tecst.domain.user.service.UserService;
-import com.tecst.tecst.global.result.PageResponse;
+import com.tecst.tecst.domain.question.dto.response.QuestionsPageResponse;
 import com.tecst.tecst.global.util.Type;
 import com.tecst.tecst.domain.question.exception.QuestionNotFound;
 import com.tecst.tecst.domain.question.repository.QuestionRepository;
@@ -30,6 +30,7 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final QuestionCustomRepositoryImpl questionCustomRepository;
     private final UserService userService;
+
     public CreateQuestionResponse createQuestion(CreateQuestionRequest dto) {
         return CreateQuestionResponse.from(
                 questionRepository.save(
@@ -49,14 +50,14 @@ public class QuestionService {
                 .collect(Collectors.toList()));
     }
 
-    public PageResponse getCommonQuestions(Integer page, Integer size) {
+    public QuestionsPageResponse getCommonQuestions(Integer page, Integer size) {
         Page<Question> questionList = questionRepository.findAllByUser_role("ADMIN", PageRequest.of(page, size));
-        return PageResponse.pageResponseMapping(questionList);
+        return QuestionsPageResponse.pageResponseMapping(questionList);
     }
 
-    public PageResponse getPersonalQuestions(Integer page, Integer size) {
+    public QuestionsPageResponse getPersonalQuestions(Integer page, Integer size) {
         Page<Question> questionList = questionRepository.findAllByUser(userService.getLoginUser(), PageRequest.of(page, size));
-        return PageResponse.pageResponseMapping(questionList);
+        return QuestionsPageResponse.pageResponseMapping(questionList);
     }
 
     public UpdateQuestionResponse updateQuestion(Long id, UpdateQuestionRequest dto) {
