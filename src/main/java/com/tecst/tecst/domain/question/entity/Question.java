@@ -1,5 +1,6 @@
 package com.tecst.tecst.domain.question.entity;
 
+import com.tecst.tecst.domain.question.dto.request.UpdateQuestionRequest;
 import com.tecst.tecst.global.util.Type;
 import com.tecst.tecst.domain.user.entity.User;
 import lombok.*;
@@ -46,13 +47,9 @@ public class Question {
         this.response = response;
         this.content = content;
     }
-
-    public void update(String content,
-                       String response,
-                       Type type) {
-
-        this.content = content;
-        this.response = response;
-        this.type = type;
+    public void update(UpdateQuestionRequest question) {
+        this.content = question.getContent();
+        this.response = question.getResponse();
+        this.type = question.getType();
     }
 }
