@@ -6,7 +6,7 @@ import com.tecst.tecst.domain.question.dto.response.*;
 import com.tecst.tecst.domain.question.entity.Question;
 import com.tecst.tecst.domain.question.repository.QuestionCustomRepositoryImpl;
 import com.tecst.tecst.domain.question.service.dto.QuestionDTO;
-import com.tecst.tecst.domain.question.service.dto.QuestionResponseDTO;
+import com.tecst.tecst.domain.question.dto.response.QuestionResponseDTO;
 import com.tecst.tecst.domain.user.service.UserService;
 import com.tecst.tecst.domain.question.dto.response.QuestionsPageResponse;
 import com.tecst.tecst.global.util.Type;
@@ -14,6 +14,7 @@ import com.tecst.tecst.domain.question.exception.QuestionNotFound;
 import com.tecst.tecst.domain.question.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -46,10 +47,10 @@ public class QuestionService {
         else
             result = questionCustomRepository.findQuestionsByType(type, count);
         return new GetQuestionsResponse(result.stream()
-                .map(QuestionDTO::QuestionMapping)
+                .map(QuestionDTO::questionMapping)
                 .collect(Collectors.toList()));
     }
-
+    @Cacheable(value = "questions", key = "#page + ':' + #size", unless = "#result == null")
     public QuestionsPageResponse getCommonQuestions(Integer page, Integer size) {
         Page<Question> questionList = questionRepository.findAllByUser_role("ADMIN", PageRequest.of(page, size));
         return QuestionsPageResponse.pageResponseMapping(questionList);
@@ -74,11 +75,11 @@ public class QuestionService {
 
     public QuestionDTO findQuestionById(Long id) {
         Question question = questionRepository.findByQuestionId(id).orElseThrow(QuestionNotFound::new);
-        return QuestionDTO.QuestionMapping(question);
+        return QuestionDTO.questionMapping(question);
     }
 
     public QuestionResponseDTO getSolution(Long id) {
         Question question = questionRepository.findByQuestionId(id).orElseThrow(QuestionNotFound::new);
-        return QuestionResponseDTO.QuestionResponseMapping(question);
+        return QuestionResponseDTO.questionResponseMapping(question);
     }
 }
