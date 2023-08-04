@@ -7,7 +7,9 @@ import lombok.*;
 
 @Builder
 @Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class QuestionDTO {
     private Long questionId;
     private String content;
@@ -15,7 +17,7 @@ public class QuestionDTO {
     private Type type;
 
     // TODO Mapper로 변경
-    public static QuestionDTO QuestionMapping(Question question) {
+    public static QuestionDTO questionMapping(Question question) {
         return QuestionDTO.builder()
                 .questionId(question.getQuestionId())
                 .content(question.getContent())
@@ -23,11 +25,4 @@ public class QuestionDTO {
                 .type(question.getType())
                 .build();
     }
-
-//    public QuestionDTO(Question question) {
-//        this.questionId = question.getQuestionId();
-//        this.content = question.getContent();
-//        this.response = question.getResponse();
-//        this.type = question.getType();
-//    }
 }
