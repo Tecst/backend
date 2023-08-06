@@ -1,4 +1,4 @@
-package com.tecst.tecst.domain.question.service.dto;
+package com.tecst.tecst.domain.question.dto.response;
 
 import com.tecst.tecst.domain.question.entity.Question;
 import lombok.*;
@@ -11,7 +11,7 @@ public class QuestionResponseDTO {
     private String response;
 
     // TODO Mapper로 변경
-    public static QuestionResponseDTO QuestionResponseMapping(Question question) {
+    public static QuestionResponseDTO questionResponseMapping(Question question) {
         return QuestionResponseDTO.builder()
                 .questionId(question.getQuestionId())
                 .response(question.getResponse())

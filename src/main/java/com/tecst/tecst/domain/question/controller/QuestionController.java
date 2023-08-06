@@ -4,7 +4,7 @@ import com.tecst.tecst.domain.question.dto.request.CreateQuestionRequest;
 import com.tecst.tecst.domain.question.dto.request.UpdateQuestionRequest;
 import com.tecst.tecst.domain.question.dto.response.*;
 import com.tecst.tecst.domain.question.service.dto.QuestionDTO;
-import com.tecst.tecst.domain.question.service.dto.QuestionResponseDTO;
+import com.tecst.tecst.domain.question.dto.response.QuestionResponseDTO;
 import com.tecst.tecst.domain.question.dto.response.QuestionsPageResponse;
 import com.tecst.tecst.global.result.ResultCode;
 import com.tecst.tecst.global.result.ResultResponse;

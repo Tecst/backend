@@ -28,7 +28,7 @@ public class QuestionsPageResponse {
 
         return QuestionsPageResponse.builder()
                 .content(question.getContent().stream()
-                        .map(QuestionDTO::QuestionMapping)
+                        .map(QuestionDTO::questionMapping)
                         .collect(Collectors.toList()))
                 .pageSize(question.getSize())
                 .pageNo(question.getNumber())
