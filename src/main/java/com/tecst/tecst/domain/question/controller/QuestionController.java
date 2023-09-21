@@ -3,7 +3,9 @@ package com.tecst.tecst.domain.question.controller;
 import com.tecst.tecst.domain.question.dto.request.CreateQuestionRequest;
 import com.tecst.tecst.domain.question.dto.request.UpdateQuestionRequest;
 import com.tecst.tecst.domain.question.dto.response.*;
-import com.tecst.tecst.domain.question.entity.Question;
+import com.tecst.tecst.domain.question.service.dto.QuestionDTO;
+import com.tecst.tecst.domain.question.dto.response.QuestionResponseDTO;
+import com.tecst.tecst.domain.question.dto.response.QuestionsPageResponse;
 import com.tecst.tecst.global.result.ResultCode;
 import com.tecst.tecst.global.result.ResultResponse;
 import com.tecst.tecst.global.util.Type;
@@ -13,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "Question API")
@@ -22,50 +25,78 @@ import org.springframework.web.bind.annotation.*;
 public class QuestionController {
     private final QuestionService questionService;
 
-    @ApiOperation(value = "개인 질문 생성")
+    @ApiOperation(value = "질문 등록")
     @PostMapping
-    public ResponseEntity<ResultResponse> createPersonalQuestion(@RequestBody CreateQuestionRequest dto) {
+    public ResponseEntity<ResultResponse> createPersonalQuestion(
+            @RequestBody @Validated CreateQuestionRequest dto
+    ) {
         CreateQuestionResponse result = questionService.createQuestion(dto);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_CREATE_SUCCESS, result));
     }
 
-    // TODO 페이지네이션 적용
-    @ApiOperation(value = "개인별 질문 전체 제공")
-    @GetMapping
-    public ResponseEntity<ResultResponse> getPersonalQuestion() {
-        GetQuestionResponse result = questionService.getPersonalQuestion();
+    @ApiOperation(value = "기본 제공 질문 전체 조회")
+    @GetMapping("/common")
+    public ResponseEntity<ResultResponse> getCommonQuestions(
+            @RequestParam @Validated Integer page,
+            @RequestParam @Validated Integer size
+    ) {
+        QuestionsPageResponse result = questionService.getCommonQuestions(page, size);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_GET_SUCCESS, result));
     }
 
-    // TODO 권한별 작업
-    @ApiOperation(value = "기본 제공 질문 중 선택한 분야의 질문 제공")
-    @GetMapping("/common")
-    public GetQuestionResponse GetCommonQuestion(@RequestParam Type type, @RequestParam int count) {
-        return questionService.getCommonQuestion(type, count);
+    @ApiOperation(value = "개인 질문 전체 조회")
+    @GetMapping("/personal")
+    public ResponseEntity<ResultResponse> getPersonalQuestions(
+            @RequestParam @Validated Integer page,
+            @RequestParam @Validated Integer size
+    ) {
+        QuestionsPageResponse result = questionService.getPersonalQuestions(page, size);
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_GET_SUCCESS, result));
+    }
+
+    @ApiOperation(value = "기본 제공 질문 중 선택한 분야의 랜덤 질문 제공")
+    @GetMapping("/common/random")
+    public ResponseEntity<ResultResponse> getCommonQuestion(
+            @RequestParam @Validated Type type,
+            @RequestParam @Validated Integer count
+    ) {
+        GetQuestionsResponse result = questionService.getCommonQuestion(type, count);
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_GET_SUCCESS, result));
     }
 
     @ApiOperation(value = "질문 id를 받아 해당 질문 반환")
     @GetMapping("/{id}")
-    public Question GetCommonQuestion(@PathVariable Long id) {
-        return questionService.findQuestionById(id);
+    public ResponseEntity<ResultResponse> getCommonQuestion(
+            @PathVariable @Validated Long id
+    ) {
+        QuestionDTO result = questionService.findQuestionById(id);
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_GET_SUCCESS, result));
     }
 
     @ApiOperation(value = "질문 id를 받아 해당 질문 해답 반환")
     @GetMapping("/solution/{id}")
-    public GetCommonQuestionsSolution GetCommonQuestionSolution(@PathVariable Long id) {
-        return questionService.getSolution(id);
+    public ResponseEntity<ResultResponse> getCommonQuestionSolution(
+            @PathVariable @Validated Long id
+    ) {
+        QuestionResponseDTO result = questionService.getSolution(id);
+        return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_GET_SUCCESS, result));
     }
 
     @ApiOperation(value = "개인별 질문 수정")
     @PutMapping("/{id}")
-    public ResponseEntity<ResultResponse> updatePersonalQuestion(@PathVariable Long id, @RequestBody UpdateQuestionRequest dto) {
+    public ResponseEntity<ResultResponse> updatePersonalQuestion(
+            @PathVariable @Validated Long id,
+            @RequestBody @Validated UpdateQuestionRequest dto
+    ) {
         UpdateQuestionResponse result = questionService.updateQuestion(id, dto);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_UPDATE_SUCCESS, result));
     }
 
     @ApiOperation(value = "질문 삭제")
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResultResponse> deletePersonalQuestion(@PathVariable Long id) {
+    public ResponseEntity<ResultResponse> deletePersonalQuestion(
+            @PathVariable @Validated Long id
+    ) {
         questionService.deleteQuestion(id);
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_DELETE_SUCCESS));
     }

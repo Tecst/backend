@@ -29,7 +29,6 @@ import static com.tecst.tecst.global.result.ResultCode.BOOKMARK_REGISTRATION_SUC
 @RequestMapping("/api/v1/bookmark")
 public class BookmarkController {
     private final BookmarkService bookmarkService;
-    private final QuestionService questionService;
 
     @ApiOperation(value = "북마크 등록")
     @PostMapping

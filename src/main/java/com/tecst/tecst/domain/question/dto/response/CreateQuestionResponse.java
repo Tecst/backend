@@ -15,7 +15,8 @@ public class CreateQuestionResponse {
     private Type type;
 
     public static CreateQuestionResponse from(Question question) {
-        return new CreateQuestionResponse(question.getQuestionId(),
+        return new CreateQuestionResponse(
+                question.getQuestionId(),
                 question.getUser().getUserId(),
                 question.getContent(),
                 question.getResponse(),

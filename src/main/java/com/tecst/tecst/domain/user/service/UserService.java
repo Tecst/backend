@@ -22,8 +22,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+
 import javax.transaction.Transactional;
 import java.util.concurrent.TimeUnit;
 
@@ -49,7 +52,7 @@ public class UserService {
     @Transactional
     public TokenInfo login(UserLoginRequestDto dto) {
         userRepository.findByEmail(dto.getEmail()).orElseThrow(UserNotFound::new);
-        if(userRepository.findByEmailAndPassword(dto.getEmail(), dto.getPassword())==null)
+        if (userRepository.findByEmailAndPassword(dto.getEmail(), dto.getPassword()) == null)
             throw new BadCredential();
         // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
         // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
@@ -79,13 +82,13 @@ public class UserService {
         Authentication authentication = jwtTokenProvider.getAuthentication(reissue.getAccessToken());
 
         // 3. Redis 에서 User email 을 기반으로 저장된 Refresh Token 값을 가져옵니다.
-        String refreshToken = (String)redisTemplate.opsForValue().get("RT:" + authentication.getName());
+        String refreshToken = (String) redisTemplate.opsForValue().get("RT:" + authentication.getName());
 
-        if(ObjectUtils.isEmpty(refreshToken)) {
+        if (ObjectUtils.isEmpty(refreshToken)) {
             return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
         }
 
-        if(!refreshToken.equals(reissue.getRefreshToken())) {
+        if (!refreshToken.equals(reissue.getRefreshToken())) {
             return response.fail("Refresh Token 정보가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
         }
 
@@ -127,4 +130,9 @@ public class UserService {
         return userRepository.findById(userId).orElseThrow(UserNotFound::new);
     }
 
+    public User getLoginUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+        return userRepository.findByEmail(username).get();
+    }
 }

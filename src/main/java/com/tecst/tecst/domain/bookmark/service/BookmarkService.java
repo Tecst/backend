@@ -15,6 +15,7 @@ import com.tecst.tecst.domain.question.entity.Question;
 import com.tecst.tecst.domain.question.exception.QuestionNotFound;
 import com.tecst.tecst.domain.question.repository.QuestionRepository;
 import com.tecst.tecst.domain.user.entity.User;
+import com.tecst.tecst.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -33,9 +34,10 @@ public class BookmarkService {
     private final QuestionRepository questionRepository;
     private final BookmarkMapper bookmarkMapper;
     private final CustomUserDetailsService userService;
+    private final UserService userService2;
 
     public BookmarkCreateResponse register(RegistBookmarkRequestDto dto) {
-        User user = userService.getLoginUser();
+        User user = userService2.getLoginUser();
         Question question = questionRepository.findById(dto.getQuestionId()).orElseThrow(
                 () -> new QuestionNotFound());
 
@@ -60,7 +62,7 @@ public class BookmarkService {
     }
 
     public List<BookmarkResponseDto> GetBookmarks() {
-        Long userId = userService.getLoginUser().getUserId();
+        Long userId = userService2.getLoginUser().getUserId();
         List<BookmarkResponseDto> list = bookmarkRepository.findByUserUserId(userId)
                 .stream()
                 .map(BookmarkResponseDto::toBookmarkResponseDto)
