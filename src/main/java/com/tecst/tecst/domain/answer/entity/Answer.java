@@ -29,6 +29,9 @@ public class Answer {
     @Column(name = "answer_url", length = 100)
     private String answerURL; // URL
 
+    @Column(name = "score")
+    private int score;
+
     @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "question_id")
     private Question question;
@@ -38,4 +41,8 @@ public class Answer {
     private User user;
 
     private String feedBack; // GPT 평가
+
+    public void update(int score) {
+        this.score = score;
+    }
 }
