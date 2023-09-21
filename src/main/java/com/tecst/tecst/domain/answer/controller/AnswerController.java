@@ -3,9 +3,7 @@ package com.tecst.tecst.domain.answer.controller;
 import com.tecst.tecst.domain.answer.dto.request.SaveAnswerRequestDto;
 import com.tecst.tecst.domain.answer.dto.request.SaveScoreRequestDto;
 import com.tecst.tecst.domain.answer.dto.request.SaveVoiceAnswerRequestDto;
-import com.tecst.tecst.domain.answer.dto.response.GetAnswerResponseDto;
-import com.tecst.tecst.domain.answer.dto.response.GetScoreResponseDto;
-import com.tecst.tecst.domain.answer.dto.response.GetVoiceAnswerResponseDto;
+import com.tecst.tecst.domain.answer.dto.response.*;
 import com.tecst.tecst.domain.answer.service.AnswerService;
 import com.tecst.tecst.global.result.ResultResponse;
 import io.swagger.annotations.Api;
@@ -20,6 +18,7 @@ import java.io.IOException;
 import static com.tecst.tecst.global.result.ResultCode.ANSWER_FIND_SUCCESS;
 import static com.tecst.tecst.global.result.ResultCode.REGISTER_ANSWER_SUCCESS;
 import static com.tecst.tecst.global.result.ResultCode.SCORE_REGISTRATION_SUCCESS;
+import static com.tecst.tecst.global.result.ResultCode.AVERAGE_FIND_SUCCESS;
 
 @Api(tags = "Answer API")
 @RestController
@@ -63,4 +62,10 @@ public class AnswerController {
         return ResponseEntity.ok(ResultResponse.of(SCORE_REGISTRATION_SUCCESS, responseDto));
     }
 
+    @ApiOperation(value = "전체 사용자와 특정 사용자의 평균 점수 비교")
+    @GetMapping("reports/{userId}")
+    public ResponseEntity<ResultResponse> getAverage(@PathVariable Long userId) {
+        GetAverageResponseDto dto = answerService.getAverage(userId);
+        return ResponseEntity.ok(ResultResponse.of(AVERAGE_FIND_SUCCESS, dto));
+    }
 }

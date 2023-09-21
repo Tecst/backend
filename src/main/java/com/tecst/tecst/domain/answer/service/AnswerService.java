@@ -6,9 +6,7 @@ import com.tecst.tecst.domain.answer.ClovaSpeechClient;
 import com.tecst.tecst.domain.answer.dto.request.SaveAnswerRequestDto;
 import com.tecst.tecst.domain.answer.dto.request.SaveScoreRequestDto;
 import com.tecst.tecst.domain.answer.dto.request.SaveVoiceAnswerRequestDto;
-import com.tecst.tecst.domain.answer.dto.response.GetAnswerResponseDto;
-import com.tecst.tecst.domain.answer.dto.response.GetScoreResponseDto;
-import com.tecst.tecst.domain.answer.dto.response.GetVoiceAnswerResponseDto;
+import com.tecst.tecst.domain.answer.dto.response.*;
 import com.tecst.tecst.domain.answer.entity.Answer;
 import com.tecst.tecst.domain.answer.exception.AnswerNotFound;
 import com.tecst.tecst.domain.answer.mapper.AnswerMapper;
@@ -28,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -84,6 +83,13 @@ public class AnswerService {
     public GetAnswerResponseDto getAnswer(Long answersId) {
         Answer answer = answerRepository.findById(answersId).orElseThrow(AnswerNotFound::new);
         return answerMapper.toDto(answer);
+    }
+
+    public GetAverageResponseDto getAverage(Long userId) {
+        List<AverageResponseDto> list = answerRepository.findAvg(userId);
+        GetAverageResponseDto dto = new GetAverageResponseDto(userId, list);
+
+        return dto;
     }
 
     public GetAnswerResponseDto saveVoiceAnswer(SaveVoiceAnswerRequestDto dto) throws IOException {

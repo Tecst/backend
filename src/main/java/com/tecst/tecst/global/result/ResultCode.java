@@ -29,6 +29,7 @@ public enum ResultCode {
     REGISTER_ANSWER_SUCCESS("A001", "응답 등록 성공"),
     ANSWER_FIND_SUCCESS("A002", "응답 찾기 성공"),
     SCORE_REGISTRATION_SUCCESS("A003", "점수 등록 성공"),
+    AVERAGE_FIND_SUCCESS("A003", "평균 점수 조회 성공"),
     ;
 
     private final String code;
