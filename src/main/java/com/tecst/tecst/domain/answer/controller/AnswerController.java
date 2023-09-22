@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,7 @@ public class AnswerController {
 
    @ApiOperation(value = "음성 답변 업로드 후 STT 실행 및 저장")
     @PostMapping(value="/voice-answers", consumes = {"multipart/form-data"})
-    public ResponseEntity<ResultResponse> SaveVoiceAnswer(@ModelAttribute SaveVoiceAnswerRequestDto dto) throws IOException {
+    public ResponseEntity<ResultResponse> SaveVoiceAnswer(@ModelAttribute SaveVoiceAnswerRequestDto dto) throws IOException, JSONException {
         GetAnswerResponseDto responseDto = answerService.saveVoiceAnswer(dto);
         return ResponseEntity.ok(ResultResponse.of(REGISTER_ANSWER_SUCCESS, responseDto));
     }
