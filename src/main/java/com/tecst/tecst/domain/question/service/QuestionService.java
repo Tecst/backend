@@ -50,15 +50,19 @@ public class QuestionService {
                 .map(QuestionDTO::questionMapping)
                 .collect(Collectors.toList()));
     }
-    @Cacheable(value = "questions", key = "#page + ':' + #size", unless = "#result == null")
-    public QuestionsPageResponse getCommonQuestions(Integer page, Integer size) {
-        Page<Question> questionList = questionRepository.findAllByUser_role("ADMIN", PageRequest.of(page, size));
-        return QuestionsPageResponse.pageResponseMapping(questionList);
+//    @Cacheable(value = "questions", key = "#page + ':' + #size", unless = "#result == null")
+    public GetQuestionsResponse getCommonQuestions() {
+        List<Question> questionList = questionRepository.findAllByUser_role("ADMIN");
+        return new GetQuestionsResponse(questionList.stream()
+                .map(QuestionDTO::questionMapping)
+                .collect(Collectors.toList()));
     }
 
-    public QuestionsPageResponse getPersonalQuestions(Integer page, Integer size) {
-        Page<Question> questionList = questionRepository.findAllByUser(userService.getLoginUser(), PageRequest.of(page, size));
-        return QuestionsPageResponse.pageResponseMapping(questionList);
+    public GetQuestionsResponse getPersonalQuestions() {
+        List<Question> questionList = questionRepository.findAllByUser(userService.getLoginUser());
+        return new GetQuestionsResponse(questionList.stream()
+                .map(QuestionDTO::questionMapping)
+                .collect(Collectors.toList()));
     }
 
     public UpdateQuestionResponse updateQuestion(Long id, UpdateQuestionRequest dto) {

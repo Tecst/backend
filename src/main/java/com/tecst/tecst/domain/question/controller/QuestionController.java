@@ -36,21 +36,15 @@ public class QuestionController {
 
     @ApiOperation(value = "기본 제공 질문 전체 조회")
     @GetMapping("/common")
-    public ResponseEntity<ResultResponse> getCommonQuestions(
-            @RequestParam @Validated Integer page,
-            @RequestParam @Validated Integer size
-    ) {
-        QuestionsPageResponse result = questionService.getCommonQuestions(page, size);
+    public ResponseEntity<ResultResponse> getCommonQuestions() {
+        GetQuestionsResponse result = questionService.getCommonQuestions();
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_GET_SUCCESS, result));
     }
 
     @ApiOperation(value = "개인 질문 전체 조회")
     @GetMapping("/personal")
-    public ResponseEntity<ResultResponse> getPersonalQuestions(
-            @RequestParam @Validated Integer page,
-            @RequestParam @Validated Integer size
-    ) {
-        QuestionsPageResponse result = questionService.getPersonalQuestions(page, size);
+    public ResponseEntity<ResultResponse> getPersonalQuestions() {
+        GetQuestionsResponse result = questionService.getPersonalQuestions();
         return ResponseEntity.ok(ResultResponse.of(ResultCode.QUESTION_GET_SUCCESS, result));
     }
 
