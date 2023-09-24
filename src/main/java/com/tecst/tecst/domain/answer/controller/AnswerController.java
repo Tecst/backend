@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
-import static com.tecst.tecst.global.result.ResultCode.ANSWER_FIND_SUCCESS;
-import static com.tecst.tecst.global.result.ResultCode.REGISTER_ANSWER_SUCCESS;
-import static com.tecst.tecst.global.result.ResultCode.SCORE_REGISTRATION_SUCCESS;
-import static com.tecst.tecst.global.result.ResultCode.AVERAGE_FIND_SUCCESS;
+import static com.tecst.tecst.global.result.ResultCode.*;
 
 @Api(tags = "Answer API")
 @RestController
@@ -60,6 +57,13 @@ public class AnswerController {
     public ResponseEntity<ResultResponse> SaveScore(@RequestBody SaveScoreRequestDto dto) {
         GetScoreResponseDto responseDto = answerService.saveScore(dto);
         return ResponseEntity.ok(ResultResponse.of(SCORE_REGISTRATION_SUCCESS, responseDto));
+    }
+
+    @ApiOperation(value = "특정 사용자의 문제 풀이 개수 출력")
+    @GetMapping("reports/solved-questions/{userId}")
+    public ResponseEntity<ResultResponse> getSolvedQuestCount(@PathVariable Long userId) {
+        GetSolvedQuestCountResponseDto dto = answerService.getSolvedQuestCount(userId);
+        return ResponseEntity.ok(ResultResponse.of(SOLVED_COUNT_FIND_SUCCESS, dto));
     }
 
     @ApiOperation(value = "전체 사용자와 특정 사용자의 평균 점수 비교")

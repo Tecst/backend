@@ -92,6 +92,11 @@ public class AnswerService {
         return dto;
     }
 
+    public GetSolvedQuestCountResponseDto getSolvedQuestCount(Long userId) {
+        List<SolvedQuestCountResponseDto> list = answerRepository.findSolvedQuest(userId);
+        return new GetSolvedQuestCountResponseDto(userId, list);
+    }
+
     public GetAnswerResponseDto saveVoiceAnswer(SaveVoiceAnswerRequestDto dto) throws IOException {
         Question commonQuestion = commonQuestionRepository.findById(dto.getCommonQuestionsId()).orElseThrow(QuestionNotFound::new);
         User user = userService2.getLoginUser();
